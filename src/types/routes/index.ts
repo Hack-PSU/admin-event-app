@@ -4,8 +4,8 @@ export enum RootRoute {
 }
 
 export enum HomeRoute {
-    Main = "Main",
-    CodeRoute = "Code"
+    Admin = "Admin",
+    CodeRoute = "CodeRouter"
 }
 
 export enum CodeRoute {

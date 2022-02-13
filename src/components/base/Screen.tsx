@@ -2,16 +2,18 @@ import {FC} from "react";
 import {ScreenProps} from "types";
 import {Keyboard, Platform, TouchableWithoutFeedback, useWindowDimensions} from "react-native";
 import {Box, KeyboardAvoidingView, ScrollView, Stack, StatusBar, VStack, ZStack} from "native-base";
+import Toolbar from "components/base/Toolbar";
 
-const WithKeyboardAvoiding: FC = ({ children }) => {
+const WithKeyboardAvoiding: FC<Pick<ScreenProps, "withToolbar" | "scrollEnabled">> = ({ children, scrollEnabled, withToolbar }) => {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, width: "100%" }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={scrollEnabled}>
+        <TouchableWithoutFeedback onPress={() => console.log("HERE")}>
           <>
+            { withToolbar && <Toolbar back /> }
             { children }
           </>
         </TouchableWithoutFeedback>
@@ -33,16 +35,17 @@ const WithBgImage: FC<Pick<ScreenProps, "bgImage">> = ({ children, bgImage }) =>
   )
 }
 
-const Content: FC<Pick<ScreenProps, "keyboardAvoiding">> = ({ children, keyboardAvoiding }) => {
+const Content: FC<Pick<ScreenProps, "keyboardAvoiding" | "withToolbar" | "scrollEnabled">> = ({ scrollEnabled, withToolbar, children, keyboardAvoiding }) => {
   return (
     <>
       { keyboardAvoiding ?
-        <WithKeyboardAvoiding>
+        <WithKeyboardAvoiding withToolbar={withToolbar} scrollEnabled={scrollEnabled}>
           { children }
         </WithKeyboardAvoiding>
         :
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback onPress={() => console.log("HERE")}>
           <>
+            { withToolbar && <Toolbar back /> }
             { children }
           </>
         </TouchableWithoutFeedback>
@@ -51,7 +54,7 @@ const Content: FC<Pick<ScreenProps, "keyboardAvoiding">> = ({ children, keyboard
   )
 }
 
-const Screen: FC<ScreenProps> = ({ children, bgImage, statusBarStyle, backgroundColor, keyboardAvoiding, top, right, bottom, left, ...props }) => {
+const Screen: FC<ScreenProps> = ({ children, scrollEnabled, withToolbar, bgImage, statusBarStyle, backgroundColor, keyboardAvoiding, top, right, bottom, left, ...props }) => {
   const { width, height } = useWindowDimensions()
 
   return (
@@ -68,14 +71,15 @@ const Screen: FC<ScreenProps> = ({ children, bgImage, statusBarStyle, background
       {...props}
     >
       <StatusBar barStyle={statusBarStyle ?? "default"} />
+      {/*{ withToolbar && !keyboardAvoiding && <Toolbar back /> }*/}
       { bgImage ?
         <WithBgImage bgImage={bgImage}>
-          <Content keyboardAvoiding={keyboardAvoiding}>
+          <Content scrollEnabled={scrollEnabled} keyboardAvoiding={keyboardAvoiding} withToolbar={withToolbar}>
             { children }
           </Content>
         </WithBgImage>
         :
-        <Content keyboardAvoiding={keyboardAvoiding}>
+        <Content scrollEnabled={scrollEnabled} keyboardAvoiding={keyboardAvoiding} withToolbar={withToolbar}>
           { children }
         </Content>
       }

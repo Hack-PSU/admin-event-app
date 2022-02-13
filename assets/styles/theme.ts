@@ -75,21 +75,41 @@ export const theme = extendTheme({
 })
 
 const generateColor: UseSingleColorProps = (config) => {
-  const { color, opacity } = config
+  const { color, opacity, shade } = config
   let colorString;
 
   switch (color) {
     case "stadium_orange":
-      colorString = "stadium_orange.400"
+      colorString = "stadium_orange"
+      if (shade) {
+        colorString += `.${shade}`
+      } else {
+        colorString += ".400"
+      }
       break;
     case "creamery":
-      colorString = "creamery.50"
+      colorString = "creamery"
+      if (shade) {
+        colorString += `.${shade}`
+      } else {
+        colorString += ".50"
+      }
       break;
     case "university_blue":
-      colorString = "university_blue.800"
+      colorString = "university_blue"
+      if (shade) {
+        colorString += `.${shade}`
+      } else {
+        colorString += ".800"
+      }
       break;
     case "hacky_blue":
-      colorString = "hacky_blue.400"
+      colorString = "hacky_blue"
+      if (shade) {
+        colorString += `.${shade}`
+      } else {
+        colorString += ".400"
+      }
       break;
     case "black":
       colorString = "black"
@@ -99,6 +119,11 @@ const generateColor: UseSingleColorProps = (config) => {
       break;
     default:
       colorString = color
+      if (shade) {
+        colorString += `.${shade}`
+      } else if (!color.includes(".")) {
+        colorString += `.500`
+      }
       break;
   }
 

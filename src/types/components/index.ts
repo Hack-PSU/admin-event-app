@@ -31,12 +31,14 @@ export type ControlledInputProps = Omit<InputProps, "children" | "placeholder"> 
 
 export type ScreenProps = IBoxProps & {
   keyboardAvoiding?: boolean
+  withToolbar?: boolean
   top?: number
   left?: number
   right?: number
   bottom?: number
   statusBarStyle?: StatusBarStyle
   bgImage?: any
+  scrollEnabled?: boolean
 }
 
 export type ButtonProps = Omit<IButtonProps, "children"> & Partial<Pick<ITextProps, "fontSize">> & {
@@ -44,4 +46,17 @@ export type ButtonProps = Omit<IButtonProps, "children"> & Partial<Pick<ITextPro
   rightIcon?: JSX.Element
   color?: string
   disabled?: boolean
+}
+
+export interface IActionCardProps {
+  onPress(): void
+  icon: JSX.Element
+}
+
+export interface IToolbarProps {
+  color?: string
+  close?: boolean
+  back?: boolean
+  width?: number
+  height?: number
 }

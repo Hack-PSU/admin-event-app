@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import {Screen, Typography} from "components/base";
+import {Button, Icon, Screen, Typography} from "components/base";
 import {useColor, useMultipleColors} from "assets/styles/theme";
 import {Box, Center, Image, VStack} from "native-base";
 import {useWindowDimensions} from "react-native";
@@ -28,6 +28,9 @@ const AuthScreen: FC = () => {
     },
     text: {
       color: "stadium_orange"
+    },
+    google: {
+      color: "blue.500"
     }
   })
 
@@ -48,6 +51,20 @@ const AuthScreen: FC = () => {
         </Center>
         <Typography mt="3" variant="h1" fontSize="4xl">LOGIN</Typography>
         <LoginForm />
+        <Button
+        mt="16"
+        backgroundColor={colors.google}
+        leftIcon={<Icon name="google" fill="#ffffff"/>}
+      >
+        Sign In With Google
+      </Button>
+      <Button
+        mt="3"
+        backgroundColor="black"
+        leftIcon={<Icon name="github" fill="#ffffff"/>}
+      >
+        Sign In With GitHub
+      </Button>
       </VStack>
     </Screen>
   )

@@ -1,21 +1,22 @@
 export interface IUseColorConfig {
   color: "stadium_orange" | "creamery" | "university_blue" | "hacky_blue" | "black" | "white" | string
+  shade?: "50" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900"
   opacity?: number
 }
 
-type UseSingleColor = IUseColorConfig
+type UseSingleColorConfig = IUseColorConfig
 type UseSingleColorReturn = string
 
-export type UseMultipleColors = {
+export type UseMultipleColorsConfig = {
   [K: string]: IUseColorConfig
 }
 
-export type UseMultipleColorsReturn<C extends keyof UseMultipleColors> = {
+export type UseMultipleColorsReturn<C extends keyof UseMultipleColorsConfig> = {
   [K in C]: string
 }
 
-export type UseSingleColorProps = (config: UseSingleColor) => UseSingleColorReturn
-export type UseMultipleColorProps = (config: UseMultipleColors) => UseMultipleColorsReturn<keyof typeof config>
+export type UseSingleColorProps = (config: UseSingleColorConfig) => UseSingleColorReturn
+export type UseMultipleColorProps = (config: UseMultipleColorsConfig) => UseMultipleColorsReturn<keyof typeof config>
 
 export interface IUseShadowProps {
   offset?: {
