@@ -6,6 +6,15 @@ import AppLoading from "expo-app-loading";
 import Root from "routes/index";
 import {theme} from "assets/styles/theme";
 
+import FirebaseProvider from "components/context/FirebaseProvider";
+import {getEnvironment} from "./config/release";
+import {initializeApp} from "firebase/app";
+import {getAuth} from "firebase/auth";
+
+const env = getEnvironment()
+initializeApp(env.firebaseConfig)
+const auth = getAuth()
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
@@ -21,7 +30,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <NativeBaseProvider theme={theme}>
-        <Root />
+        <FirebaseProvider auth={auth}>
+          <Root />
+        </FirebaseProvider>
       </NativeBaseProvider>
     </NavigationContainer>
   );

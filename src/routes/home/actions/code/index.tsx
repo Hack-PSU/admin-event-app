@@ -12,7 +12,7 @@ const CodeScreen: FC = () => {
     >
       <VStack mt="2" px="0.5">
         <Typography bold variant="h2" fontSize="4xl">
-          Enter the {"\n"}Code
+          Enter the {"\n"}Code.
         </Typography>
         <CodeForm />
       </VStack>
