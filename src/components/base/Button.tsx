@@ -2,10 +2,10 @@ import React, {FC} from "react";
 import {Button as NativeButton, Icon as NativeIcon} from "native-base";
 import {ButtonProps} from "types/components";
 import Typography from "components/base/Typography";
-import {useColor, useMultipleColors, useShadow} from "assets/styles/theme";
+import {useColor} from "assets/styles/theme";
 
 const Button: FC<ButtonProps> = ({ leftIcon, rightIcon, children, backgroundColor, color, fontSize, variant, disabled, ...props }) => {
-  const colors = useMultipleColors({
+  const {colors} = useColor({
     bg: {
       color: "stadium_orange"
     },

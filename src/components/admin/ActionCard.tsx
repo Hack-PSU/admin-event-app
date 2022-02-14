@@ -4,14 +4,16 @@ import {IActionCardProps} from "types";
 import {useColor, useShadow} from "assets/styles/theme";
 
 const ActionCard: FC<IActionCardProps> = ({ icon, children, onPress }) => {
-  const cardColor = useColor({
-    color: "white",
+  const {colors} = useColor({
+    cardColor: {
+      color: "white",
+    }
   })
 
   return (
     <Pressable
       alignItems="center"
-      backgroundColor={cardColor}
+      backgroundColor={colors.cardColor}
       width="48%"
       height={150}
       onPress={onPress} rounded="lg" style={useShadow()}

@@ -1,11 +1,11 @@
 import React, {FC} from "react";
 import {InputProps} from "types";
-import {useColor, useMultipleColors} from "assets/styles/theme";
+import {useColor} from "assets/styles/theme";
 import {PasswordInput, Input} from "components/base";
 
 
 const LoginInput: FC<InputProps> = ({ password, ...props }) => {
-  const colors = useMultipleColors({
+  const {colors} = useColor({
     bg: {
       color: "white"
     },

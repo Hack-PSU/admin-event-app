@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {Button, Icon, Screen, Typography} from "components/base";
-import {useMultipleColors} from "assets/styles/theme";
+import {useColor} from "assets/styles/theme";
 import {Box, Flex, Row, VStack} from "native-base";
 import {ActionCard} from "components/admin";
 import {CodeRoute, HomeRoute, IActionCardProps} from "types";
@@ -40,7 +40,7 @@ const CodeCard: FC<Pick<IActionCardProps, "onPress">> = ({ onPress }) => {
 const AdminScreen: FC = () => {
   const { logout } = useFirebase()
   const { navigate } = useNavigation()
-  const colors = useMultipleColors({
+  const {colors} = useColor({
     bg: {
       color: "white",
     },

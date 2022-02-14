@@ -1,6 +1,6 @@
 import React, {FC} from 'react'
 import {Button, Icon, Screen, Typography} from "components/base";
-import {useColor, useMultipleColors} from "assets/styles/theme";
+import {useColor} from "assets/styles/theme";
 import {Box, Center, Image, Row, VStack} from "native-base";
 import {useWindowDimensions} from "react-native";
 import {LoginForm} from "components/auth";
@@ -38,7 +38,7 @@ const getErrorMessage = (error: FirebaseError) => {
 }
 
 const AuthScreen: FC = () => {
-  const colors = useMultipleColors({
+  const {colors} = useColor({
     bg: {
       color: "white"
     },
@@ -82,20 +82,20 @@ const AuthScreen: FC = () => {
           }
         </Row>
         <LoginForm />
-        <Button
-          mt="16"
-          backgroundColor={colors.google}
-          leftIcon={<Icon name="google" fill="#ffffff"/>}
-        >
-          Sign In With Google
-        </Button>
-        <Button
-          mt="3"
-          backgroundColor="black"
-          leftIcon={<Icon name="github" fill="#ffffff"/>}
-        >
-          Sign In With GitHub
-        </Button>
+        {/*<Button*/}
+        {/*  mt="16"*/}
+        {/*  backgroundColor={colors.google}*/}
+        {/*  leftIcon={<Icon name="google" fill="#ffffff"/>}*/}
+        {/*>*/}
+        {/*  Sign In With Google*/}
+        {/*</Button>*/}
+        {/*<Button*/}
+        {/*  mt="3"*/}
+        {/*  backgroundColor="black"*/}
+        {/*  leftIcon={<Icon name="github" fill="#ffffff"/>}*/}
+        {/*>*/}
+        {/*  Sign In With GitHub*/}
+        {/*</Button>*/}
       </VStack>
     </Screen>
   )

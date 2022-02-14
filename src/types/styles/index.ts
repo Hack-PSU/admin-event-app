@@ -7,16 +7,24 @@ export interface IUseColorConfig {
 type UseSingleColorConfig = IUseColorConfig
 type UseSingleColorReturn = string
 
-export type UseMultipleColorsConfig = {
+export type UseColorConfig = {
   [K: string]: IUseColorConfig
 }
 
-export type UseMultipleColorsReturn<C extends keyof UseMultipleColorsConfig> = {
-  [K in C]: string
+export type UseColorFormat = {
+  [K: string]: string
 }
 
-export type UseSingleColorProps = (config: UseSingleColorConfig) => UseSingleColorReturn
-export type UseMultipleColorProps = (config: UseMultipleColorsConfig) => UseMultipleColorsReturn<keyof typeof config>
+export type UseColorValues = {
+  values: UseColorFormat
+}
+
+export interface IUseColorReturn {
+  colors: UseColorFormat
+  values: UseColorFormat
+}
+
+export type UseColorHook = (config: UseColorConfig) => { colors: UseColorFormat, values: UseColorFormat  }
 
 export interface IUseShadowProps {
   offset?: {

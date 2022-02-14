@@ -1,11 +1,11 @@
 import {createContext, FC, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {Auth, getIdToken, onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from 'firebase/auth'
-import {FirebaseError, IFirebaseProviderHooks, JwtToken} from "types";
+import {FirebaseError, IFirebaseProvider, IFirebaseProviderHooks, JwtToken} from "types";
 import jwt_decode from 'jwt-decode'
 
 const FirebaseContext = createContext<IFirebaseProviderHooks>({} as IFirebaseProviderHooks)
 
-const FirebaseProvider: FC<{ auth: Auth }> = ({ auth, children }) => {
+const FirebaseProvider: FC<IFirebaseProvider> = ({ auth, children }) => {
   const [user, setUser] = useState<User>()
   const [authenticated, setAuthenticated] = useState<boolean>(false)
   const [error, setError] = useState<FirebaseError>(FirebaseError.NONE)
@@ -17,6 +17,7 @@ const FirebaseProvider: FC<{ auth: Auth }> = ({ auth, children }) => {
   const validateToken = useCallback(async (user: User) => {
     const token = await getUserIdToken(user)
     const decoded = jwt_decode<JwtToken>(token)
+    // filter accounts from staging vs prod API
     if (decoded.iss && decoded.iss.includes("hackpsu18-staging")) {
       // TeamMember permissions == 2
       if (decoded.privilege && decoded.privilege >= 2) {

@@ -4,7 +4,7 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import _ from "lodash";
 import {BarCodeScanningResult, Camera} from "expo-camera";
 import {Button, Screen, Toolbar, Typography} from "components/base";
-import {useColor, useMultipleColors} from "assets/styles/theme";
+import {useColor} from "assets/styles/theme";
 import {Box, Center, VStack} from "native-base";
 import {BarCodeScanner} from "expo-barcode-scanner";
 import Region from 'assets/images/region.svg';
@@ -21,13 +21,15 @@ import Animated, {
 } from 'react-native-reanimated'
 
 const GetPermission: FC = () => {
-  const bgColor = useColor({
-    color: "white"
+  const {colors} = useColor({
+    bgColor: {
+      color: "white"
+    }
   })
 
   return (
     <Screen
-      backgroundColor={bgColor}
+      backgroundColor={colors.bgColor}
     >
       <VStack>
         <Center>
@@ -41,15 +43,17 @@ const GetPermission: FC = () => {
 }
 
 const NoPermission: FC = () => {
-  const bgColor = useColor({
-    color: "white"
+  const {colors} = useColor({
+    bgColor: {
+      color: "white"
+    }
   })
 
   return (
     <Screen
-      backgroundColor={bgColor}
+      backgroundColor={colors.bgColor}
     >
-      <VStack>
+      <VStack justifyContent="center">
         <Center>
           <Typography variant="h1">
             Enable Permissions to start scanning
@@ -66,7 +70,6 @@ const ScanScreen: FC = () => {
   const [error, setError] = useState<boolean>(false)
   const [hasPermission, setHasPermission] = useState<boolean | null>(null)
   const { top, bottom } = useSafeAreaInsets()
-  const rotation = useSharedValue(0)
 
   const { navigate } = useNavigation()
 
@@ -106,7 +109,7 @@ const ScanScreen: FC = () => {
     }
   }, [error])
 
-  const colors = useMultipleColors({
+  const {colors} = useColor({
     cameraBg: {
       color: "black",
       opacity: 40
@@ -119,7 +122,7 @@ const ScanScreen: FC = () => {
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync()
+      const { status } = await BarCodeScanner.requestPermissionsAsync()
       setHasPermission(status === "granted")
     })()
   }, [])
@@ -222,7 +225,7 @@ const ScanScreen: FC = () => {
               fontSize="lg"
               width="1/2"
               borderRadius="full"
-              onPress={() => setError(true)}
+              onPress={() => setScanned(true)}
             >
               Scan
             </Button>

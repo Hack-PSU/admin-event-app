@@ -1,10 +1,10 @@
 import React, {FC} from "react";
 import {InputProps} from "types";
 import {Input} from "components/base";
-import {useMultipleColors} from "assets/styles/theme";
+import {useColor} from "assets/styles/theme";
 
 const CodeInput: FC<InputProps> = (props) => {
-  const colors = useMultipleColors({
+  const {colors} = useColor({
     placeholder: {
       color: "creamery",
       shade: "100"

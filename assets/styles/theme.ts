@@ -1,8 +1,9 @@
-import {extendTheme} from "native-base";
+import {extendTheme, useToken} from "native-base";
 import {
+  IUseColorConfig,
+  IUseColorReturn,
   IUseShadowProps,
-  UseMultipleColorProps,
-  UseSingleColorProps
+  UseColorHook,
 } from "types";
 import {useMemo} from "react";
 import {StyleSheet} from "react-native";
@@ -74,7 +75,7 @@ export const theme = extendTheme({
   }
 })
 
-const generateColor: UseSingleColorProps = (config) => {
+const generateColor = (config: IUseColorConfig) => {
   const { color, opacity, shade } = config
   let colorString;
 
@@ -134,18 +135,22 @@ const generateColor: UseSingleColorProps = (config) => {
   return colorString
 }
 
-export const useColor: UseSingleColorProps = (config) => {
-  return useMemo(() => generateColor(config), [config])
-}
-
-export const useMultipleColors: UseMultipleColorProps = (config) => {
-  return useMemo(() =>
+export const useColor: UseColorHook = (config) => {
+  const colors = useMemo(() =>
     Object.entries(config).reduce(
-      (colors, [ key, colorConfig ]) => {
+      (colors, [key, colorConfig]) => {
         colors[key] = generateColor(colorConfig)
         return colors
-    }, {} as { [K in keyof typeof config]: string }),
-  [config])
+      }, {} as { [K in keyof typeof config]: string }),
+    [config])
+
+  const values = Object.values(colors).reduce((valueMap, color) => {
+      const [value] = useToken("color", color)
+      valueMap[color] = value as string
+      return valueMap
+    }, {} as { [K in keyof typeof config]: string })
+
+    return {colors, values}
 }
 
 export const useShadow = (options?: IUseShadowProps) => {

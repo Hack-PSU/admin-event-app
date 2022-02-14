@@ -2,14 +2,14 @@ import React, {FC} from "react";
 import {FormProvider, useForm} from "react-hook-form";
 import {Button, ControlledInput} from "components/base";
 import LoginInput, { LoginPasswordInput } from "components/auth/LoginInput";
-import {useMultipleColors} from "assets/styles/theme";
+import {useColor} from "assets/styles/theme";
 import {useFirebase} from "components/context/FirebaseProvider";
 
 const LoginForm: FC = () => {
   const methods = useForm()
   const { loginWithEmailAndPassword } = useFirebase()
 
-  const colors = useMultipleColors({
+  const {colors} = useColor({
     placeholderColor: {
       color: "creamery.500"
     },

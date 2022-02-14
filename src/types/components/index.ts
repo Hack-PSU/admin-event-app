@@ -2,7 +2,7 @@ import {IBoxProps, IButtonProps, IInputProps, ITextProps} from "native-base";
 import {UseControllerProps} from "react-hook-form";
 import React from "react";
 import {StatusBarStyle} from "react-native";
-import {User} from "firebase/auth";
+import {Auth, User} from "firebase/auth";
 import {JwtPayload} from "jwt-decode";
 
 type TextStyle = "h1" | "h2" | "h3" | "h4" | "sub1" | "sub2" | "button" | "body1" | "body2" | "caption" | "overline"
@@ -61,6 +61,10 @@ export interface IToolbarProps {
   back?: boolean
   width?: number
   height?: number
+}
+
+export interface IFirebaseProvider {
+  auth: Auth
 }
 
 export interface IFirebaseProviderHooks {
