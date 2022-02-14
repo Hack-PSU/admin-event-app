@@ -1,10 +1,11 @@
 import React, {FC} from "react";
-import {Icon, Screen, Typography} from "components/base";
+import {Button, Icon, Screen, Typography} from "components/base";
 import {useMultipleColors} from "assets/styles/theme";
 import {Box, Flex, Row, VStack} from "native-base";
 import {ActionCard} from "components/admin";
 import {CodeRoute, HomeRoute, IActionCardProps} from "types";
 import {useNavigation} from "@react-navigation/native";
+import {useFirebase} from "components/context/FirebaseProvider";
 
 const ScanCard: FC<Pick<IActionCardProps, "onPress">> = ({ onPress }) => {
   return (
@@ -37,10 +38,14 @@ const CodeCard: FC<Pick<IActionCardProps, "onPress">> = ({ onPress }) => {
 }
 
 const AdminScreen: FC = () => {
+  const { logout } = useFirebase()
   const { navigate } = useNavigation()
   const colors = useMultipleColors({
     bg: {
       color: "white",
+    },
+    button: {
+      color: "stadium_orange"
     }
   })
 
@@ -58,6 +63,10 @@ const AdminScreen: FC = () => {
     })
   }
 
+  const onPressLogout = async () => {
+    await logout()
+  }
+
   return (
     <Screen
       bgColor={colors.bg}
@@ -73,6 +82,14 @@ const AdminScreen: FC = () => {
           <ScanCard onPress={onScanCardPress} />
           <CodeCard onPress={onCodeCardPress} />
         </Row>
+        <Button
+          mt="5"
+          backgroundColor={colors.button}
+          fontSize="lg"
+          onPress={onPressLogout}
+        >
+          Logout
+        </Button>
       </VStack>
     </Screen>
   )

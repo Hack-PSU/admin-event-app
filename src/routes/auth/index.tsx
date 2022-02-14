@@ -1,9 +1,11 @@
 import React, {FC} from 'react'
 import {Button, Icon, Screen, Typography} from "components/base";
 import {useColor, useMultipleColors} from "assets/styles/theme";
-import {Box, Center, Image, VStack} from "native-base";
+import {Box, Center, Image, Row, VStack} from "native-base";
 import {useWindowDimensions} from "react-native";
 import {LoginForm} from "components/auth";
+import {useFirebase} from "components/context/FirebaseProvider";
+import {FirebaseError} from "types";
 
 const BgImage: FC = () => {
   const { width, height } = useWindowDimensions()
@@ -21,6 +23,20 @@ const BgImage: FC = () => {
   )
 }
 
+const getErrorMessage = (error: FirebaseError) => {
+  switch (error) {
+    case FirebaseError.NO_PERMISSION:
+      return "Unauthorized credentials"
+    case FirebaseError.MISSING_EMAIL:
+      return "Email is required"
+    case FirebaseError.INVALID:
+      return "Incorrect email or password"
+    case FirebaseError.NONE:
+      break;
+
+  }
+}
+
 const AuthScreen: FC = () => {
   const colors = useMultipleColors({
     bg: {
@@ -34,11 +50,14 @@ const AuthScreen: FC = () => {
     }
   })
 
+  const { error } = useFirebase()
+
   return (
     <Screen
       backgroundColor={colors.bg}
       keyboardAvoiding
       bgImage={<BgImage />}
+      scrollEnabled={false}
     >
       <VStack px="5" pt="5">
         <Center>
@@ -49,22 +68,34 @@ const AuthScreen: FC = () => {
             alt="HackPSU Logo"
           />
         </Center>
-        <Typography mt="3" variant="h1" fontSize="4xl">LOGIN</Typography>
+        <Row alignItems="center" justifyContent="space-between">
+          <Typography mt="3" variant="h1" fontSize="4xl">LOGIN</Typography>
+          { error !== FirebaseError.NONE ?
+            <Row alignItems="center">
+              <Icon name="alert-triangle" color="#F3603D" width={25} height={25} />
+              <Typography variant="h2" bold fontSize="sm" ml="1" color={colors.text}>
+                { getErrorMessage(error) }
+              </Typography>
+            </Row>
+            :
+            null
+          }
+        </Row>
         <LoginForm />
         <Button
-        mt="16"
-        backgroundColor={colors.google}
-        leftIcon={<Icon name="google" fill="#ffffff"/>}
-      >
-        Sign In With Google
-      </Button>
-      <Button
-        mt="3"
-        backgroundColor="black"
-        leftIcon={<Icon name="github" fill="#ffffff"/>}
-      >
-        Sign In With GitHub
-      </Button>
+          mt="16"
+          backgroundColor={colors.google}
+          leftIcon={<Icon name="google" fill="#ffffff"/>}
+        >
+          Sign In With Google
+        </Button>
+        <Button
+          mt="3"
+          backgroundColor="black"
+          leftIcon={<Icon name="github" fill="#ffffff"/>}
+        >
+          Sign In With GitHub
+        </Button>
       </VStack>
     </Screen>
   )

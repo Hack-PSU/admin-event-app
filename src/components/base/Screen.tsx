@@ -11,7 +11,7 @@ const WithKeyboardAvoiding: FC<Pick<ScreenProps, "withToolbar" | "scrollEnabled"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={scrollEnabled}>
-        <TouchableWithoutFeedback onPress={() => console.log("HERE")}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             { withToolbar && <Toolbar /> }
             { children }
@@ -43,7 +43,7 @@ const Content: FC<Pick<ScreenProps, "keyboardAvoiding" | "withToolbar" | "scroll
           { children }
         </WithKeyboardAvoiding>
         :
-        <TouchableWithoutFeedback onPress={() => console.log("HERE")}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             { withToolbar && <Toolbar /> }
             { children }

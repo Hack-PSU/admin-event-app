@@ -1,12 +1,14 @@
 import React, {FC} from "react";
 import {FormProvider, useForm} from "react-hook-form";
-import {Button, ControlledInput, Icon} from "components/base";
+import {Button, ControlledInput} from "components/base";
 import LoginInput, { LoginPasswordInput } from "components/auth/LoginInput";
-import {useColor, useMultipleColors} from "assets/styles/theme";
-import {InputProps} from "types";
+import {useMultipleColors} from "assets/styles/theme";
+import {useFirebase} from "components/context/FirebaseProvider";
 
 const LoginForm: FC = () => {
   const methods = useForm()
+  const { loginWithEmailAndPassword } = useFirebase()
+
   const colors = useMultipleColors({
     placeholderColor: {
       color: "creamery.500"
@@ -17,11 +19,11 @@ const LoginForm: FC = () => {
   })
 
   const handleSubmit = () => {
-    methods.handleSubmit((data, event) => {
-      console.log(data)
+    methods.handleSubmit(async (data, event) => {
+      await loginWithEmailAndPassword(data.email, data.password)
     })()
       .then(done => {
-        // TODO -- add navigation
+        // navigation done by root router
       })
   }
 

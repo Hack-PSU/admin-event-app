@@ -4,16 +4,19 @@ import {RootRoute} from "types";
 import HomeRouter from "routes/home";
 import AuthScreen from "routes/auth";
 import {useFirebase} from "components/context/FirebaseProvider";
-import firebase from "firebase/app";
 
 const Stack = createNativeStackNavigator()
 
 const Root: FC = () => {
+  const { authenticated } = useFirebase()
 
   return (
-      <Stack.Navigator initialRouteName={RootRoute.HomeRoute} screenOptions={{ headerShown: false }}>
-          <Stack.Screen name={RootRoute.Auth} component={AuthScreen} />
+      <Stack.Navigator initialRouteName={RootRoute.Auth} screenOptions={{ headerShown: false }}>
+        { !authenticated ?
+          <Stack.Screen name={RootRoute.Auth} component={AuthScreen}/>
+          :
           <Stack.Screen name={RootRoute.HomeRoute} component={HomeRouter} />
+        }
       </Stack.Navigator>
   )
 }
