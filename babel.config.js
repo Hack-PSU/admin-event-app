@@ -15,7 +15,10 @@ module.exports = function(api) {
             "assets": "./assets",
             'store': "./src/store"
           }
-        }
+        },
+      ],
+      [
+      'react-native-reanimated/plugin'
       ]
     ]
   };

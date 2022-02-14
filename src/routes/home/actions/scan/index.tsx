@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from "react";
-import {Alert, useWindowDimensions} from "react-native";
+import {Alert, useWindowDimensions, Vibration} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import _ from "lodash";
 import {BarCodeScanningResult, Camera} from "expo-camera";
@@ -10,6 +10,15 @@ import {BarCodeScanner} from "expo-barcode-scanner";
 import Region from 'assets/images/region.svg';
 import {useNavigation} from "@react-navigation/native";
 import {CodeRoute} from "types";
+import { View } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSequence,
+  withTiming,
+  withRepeat,
+  useAnimatedReaction, runOnJS,
+} from 'react-native-reanimated'
 
 const GetPermission: FC = () => {
   const bgColor = useColor({
@@ -54,8 +63,10 @@ const NoPermission: FC = () => {
 const ScanScreen: FC = () => {
   const { width, height } = useWindowDimensions()
   const [scanned, setScanned] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
   const [hasPermission, setHasPermission] = useState<boolean | null>(null)
   const { top, bottom } = useSafeAreaInsets()
+  const rotation = useSharedValue(0)
 
   const { navigate } = useNavigation()
 
@@ -66,6 +77,34 @@ const ScanScreen: FC = () => {
   const offsetTopRegion = height / 6
   const offsetTopScanButton = offsetTopRegion + regionHeight + height / 20
   const offsetTopCode = offsetTopScanButton + height / 13
+
+  const translate = useSharedValue(0)
+
+  // Error Animation
+  const shakeStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: translate.value }]
+    }
+  }, [translate.value])
+
+  useAnimatedReaction(() => {}, () => {
+    if (error) {
+      translate.value = withSequence(
+        withTiming(-10, {duration: 50}),
+        withRepeat(withTiming(10, {duration: 50}), 6, true),
+        withTiming(0, {duration: 50})
+      )
+      runOnJS(setError)(false)
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (error) {
+      Vibration.vibrate()
+    } else {
+      Vibration.cancel()
+    }
+  }, [error])
 
   const colors = useMultipleColors({
     cameraBg: {
@@ -85,6 +124,10 @@ const ScanScreen: FC = () => {
     })()
   }, [])
 
+  const isValid = (data: string) => {
+    return data.startsWith("HACKPSU")
+  }
+
   const handleScan = ({ type, data, cornerPoints }: BarCodeScanningResult) => {
     setScanned(false)
     if (cornerPoints) {
@@ -101,7 +144,11 @@ const ScanScreen: FC = () => {
 
       if (_.inRange(leftC, leftR, rightR) && _.inRange(rightC, leftR, rightR) &&
           _.inRange(topC, topR, bottomR) && _.inRange(bottomC, topR, bottomR)) {
-        Alert.alert(`${data}`)
+        if (isValid(data)) {
+          Alert.alert(`${data}`)
+        } else {
+          setError(true)
+        }
       }
     }
   }
@@ -164,9 +211,9 @@ const ScanScreen: FC = () => {
             >
               Align the QR Code within the frame to scan
             </Typography>
-            <Box position="absolute" top={offsetTopRegion}>
+            <Animated.View style={[shakeStyle, {position: "absolute", top: offsetTopRegion}]}>
               <Region width={regionWidth} height={regionHeight} />
-            </Box>
+            </Animated.View>
             <Button
               position="absolute"
               top={offsetTopScanButton}
@@ -175,7 +222,7 @@ const ScanScreen: FC = () => {
               fontSize="lg"
               width="1/2"
               borderRadius="full"
-              onPress={() => setScanned(true)}
+              onPress={() => setError(true)}
             >
               Scan
             </Button>
