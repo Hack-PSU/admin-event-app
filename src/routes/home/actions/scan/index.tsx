@@ -2,15 +2,13 @@ import React, {FC, useEffect, useState} from "react";
 import {Alert, useWindowDimensions, Vibration} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import _ from "lodash";
-import {BarCodeScanningResult, Camera} from "expo-camera";
 import {Button, Screen, Toolbar, Typography} from "components/base";
 import {useColor} from "assets/styles/theme";
-import {Box, Center, VStack} from "native-base";
-import {BarCodeScanner} from "expo-barcode-scanner";
+import {Center, VStack} from "native-base";
+import {BarCodeScanner, BarCodeScannerResult} from "expo-barcode-scanner";
 import Region from 'assets/images/region.svg';
 import {useNavigation} from "@react-navigation/native";
 import {CodeRoute} from "types";
-import { View } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -19,6 +17,7 @@ import Animated, {
   withRepeat,
   useAnimatedReaction, runOnJS,
 } from 'react-native-reanimated'
+import {BarCodeScanningResult} from "expo-camera";
 
 const GetPermission: FC = () => {
   const {colors} = useColor({
@@ -131,7 +130,7 @@ const ScanScreen: FC = () => {
     return data.startsWith("HACKPSU")
   }
 
-  const handleScan = ({ type, data, cornerPoints }: BarCodeScanningResult) => {
+  const handleScan = ({ type, data, cornerPoints }: BarCodeScannerResult) => {
     setScanned(false)
     if (cornerPoints) {
       const [tl, tr, br, bl] = cornerPoints

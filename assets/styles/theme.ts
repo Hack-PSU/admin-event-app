@@ -145,12 +145,12 @@ export const useColor: UseColorHook = (config) => {
     [config])
 
   const values = Object.values(colors).reduce((valueMap, color) => {
-      const [value] = useToken("color", color)
-      valueMap[color] = value as string
-      return valueMap
-    }, {} as { [K in keyof typeof config]: string })
+    const [value] = useToken("color", color)
+    valueMap[color] = value as string
+    return valueMap
+  }, {} as { [K in keyof typeof config]: string })
 
-    return {colors, values}
+  return {colors, values}
 }
 
 export const useShadow = (options?: IUseShadowProps) => {
