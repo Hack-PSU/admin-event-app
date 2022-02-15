@@ -4,7 +4,7 @@ import {IActionCardProps} from "types";
 import {useColor, useShadow} from "assets/styles/theme";
 
 const ActionCard: FC<IActionCardProps> = ({ icon, children, onPress }) => {
-  const {colors} = useColor({
+  const colors = useColor({
     cardColor: {
       color: "white",
     }

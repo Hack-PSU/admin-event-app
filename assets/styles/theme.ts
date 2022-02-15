@@ -1,7 +1,6 @@
 import {extendTheme, useToken} from "native-base";
 import {
   IUseColorConfig,
-  IUseColorReturn,
   IUseShadowProps,
   UseColorHook,
 } from "types";
@@ -136,21 +135,13 @@ const generateColor = (config: IUseColorConfig) => {
 }
 
 export const useColor: UseColorHook = (config) => {
-  const colors = useMemo(() =>
+  return useMemo(() =>
     Object.entries(config).reduce(
       (colors, [key, colorConfig]) => {
         colors[key] = generateColor(colorConfig)
         return colors
       }, {} as { [K in keyof typeof config]: string }),
     [config])
-
-  const values = Object.values(colors).reduce((valueMap, color) => {
-    const [value] = useToken("color", color)
-    valueMap[color] = value as string
-    return valueMap
-  }, {} as { [K in keyof typeof config]: string })
-
-  return {colors, values}
 }
 
 export const useShadow = (options?: IUseShadowProps) => {

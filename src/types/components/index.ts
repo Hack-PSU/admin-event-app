@@ -55,6 +55,17 @@ export interface IActionCardProps {
   icon: JSX.Element
 }
 
+export interface Event {
+  title: string
+  startTime: number
+  endTime: number
+  uid: string
+}
+
+export interface IEventCardProps {
+  event: Event
+}
+
 export interface IToolbarProps {
   color?: string
   close?: boolean

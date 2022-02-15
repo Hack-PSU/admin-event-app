@@ -5,7 +5,7 @@ import {PasswordInput, Input} from "components/base";
 
 
 const LoginInput: FC<InputProps> = ({ password, ...props }) => {
-  const {colors} = useColor({
+  const colors = useColor({
     bg: {
       color: "white"
     },

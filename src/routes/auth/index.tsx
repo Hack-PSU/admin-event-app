@@ -38,7 +38,7 @@ const getErrorMessage = (error: FirebaseError) => {
 }
 
 const AuthScreen: FC = () => {
-  const {colors} = useColor({
+  const colors = useColor({
     bg: {
       color: "white"
     },

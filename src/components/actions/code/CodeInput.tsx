@@ -4,7 +4,7 @@ import {Input} from "components/base";
 import {useColor} from "assets/styles/theme";
 
 const CodeInput: FC<InputProps> = (props) => {
-  const {colors} = useColor({
+  const colors = useColor({
     placeholder: {
       color: "creamery",
       shade: "100"

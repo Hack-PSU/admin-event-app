@@ -7,20 +7,20 @@ import {useColor} from "assets/styles/theme";
 import {Center, VStack} from "native-base";
 import {BarCodeScanner, BarCodeScannerResult} from "expo-barcode-scanner";
 import Region from 'assets/images/region.svg';
-import {useNavigation} from "@react-navigation/native";
-import {CodeRoute} from "types";
+import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
+import {CodeRoute, CodeRouteParamList} from "types";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSequence,
   withTiming,
   withRepeat,
-  useAnimatedReaction, runOnJS,
+  useAnimatedReaction,
+  runOnJS,
 } from 'react-native-reanimated'
-import {BarCodeScanningResult} from "expo-camera";
 
 const GetPermission: FC = () => {
-  const {colors} = useColor({
+  const colors = useColor({
     bgColor: {
       color: "white"
     }
@@ -42,7 +42,7 @@ const GetPermission: FC = () => {
 }
 
 const NoPermission: FC = () => {
-  const {colors} = useColor({
+  const colors = useColor({
     bgColor: {
       color: "white"
     }
@@ -64,6 +64,8 @@ const NoPermission: FC = () => {
 }
 
 const ScanScreen: FC = () => {
+  const { params } = useRoute<RouteProp<CodeRouteParamList, CodeRoute.Scan>>()
+
   const { width, height } = useWindowDimensions()
   const [scanned, setScanned] = useState<boolean>(false)
   const [error, setError] = useState<boolean>(false)
@@ -108,7 +110,7 @@ const ScanScreen: FC = () => {
     }
   }, [error])
 
-  const {colors} = useColor({
+  const colors = useColor({
     cameraBg: {
       color: "black",
       opacity: 40
@@ -139,10 +141,10 @@ const ScanScreen: FC = () => {
       const topR = offsetTopRegion
       const bottomR = offsetTopRegion + regionHeight
 
-      const leftC = (_.min([tl.x, bl.x]) ?? 0)
-      const rightC = (_.max([tr.x, br.x]) ?? 0)
-      const topC = (_.max([tl.y, tr.y]) ?? 0)
-      const bottomC = (_.min([bl.y, br.y]) ?? 0)
+      const leftC = _.min([tl.x, bl.x]) ?? 0
+      const rightC = _.max([tr.x, br.x]) ?? 0
+      const topC = _.max([tl.y, tr.y]) ?? 0
+      const bottomC = _.min([bl.y, br.y]) ?? 0
 
       if (_.inRange(leftC, leftR, rightR) && _.inRange(rightC, leftR, rightR) &&
           _.inRange(topC, topR, bottomR) && _.inRange(bottomC, topR, bottomR)) {

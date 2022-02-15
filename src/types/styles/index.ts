@@ -11,16 +11,11 @@ export type UseColorConfig = {
   [K: string]: IUseColorConfig
 }
 
-export type UseColorFormat = {
-  [K: string]: string
+export type UseColorReturn<C extends keyof UseColorConfig> = {
+  [K in C]: string
 }
 
-export interface IUseColorReturn {
-  colors: UseColorFormat
-  values: UseColorFormat
-}
-
-export type UseColorHook = (config: UseColorConfig) => IUseColorReturn
+export type UseColorHook = (config: UseColorConfig) => UseColorReturn<keyof typeof config>
 
 export interface IUseShadowProps {
   offset?: {

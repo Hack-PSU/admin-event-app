@@ -9,7 +9,7 @@ const LoginForm: FC = () => {
   const methods = useForm()
   const { loginWithEmailAndPassword } = useFirebase()
 
-  const {colors} = useColor({
+  const colors = useColor({
     placeholderColor: {
       color: "creamery.500"
     },

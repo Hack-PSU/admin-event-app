@@ -5,7 +5,7 @@ import Typography from "components/base/Typography";
 import {useColor} from "assets/styles/theme";
 
 const Button: FC<ButtonProps> = ({ leftIcon, rightIcon, children, backgroundColor, color, fontSize, variant, disabled, ...props }) => {
-  const {colors} = useColor({
+  const colors = useColor({
     bg: {
       color: "stadium_orange"
     },

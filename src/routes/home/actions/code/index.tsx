@@ -2,8 +2,14 @@ import React, {FC} from "react";
 import {Screen, Typography} from "components/base";
 import {VStack} from "native-base";
 import {CodeForm} from "components/actions";
+import {RouteProp, useRoute} from "@react-navigation/native";
+import {CodeRoute, CodeRouteParamList} from "types";
 
 const CodeScreen: FC = () => {
+  const { params } = useRoute<RouteProp<CodeRouteParamList, CodeRoute.Code>>()
+
+  console.log(params.eventId)
+
   return (
     <Screen
       withToolbar
