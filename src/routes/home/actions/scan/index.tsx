@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from "react";
-import {Alert, useWindowDimensions, Vibration} from "react-native";
+import {useWindowDimensions, Vibration} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import _ from "lodash";
 import {Button, Screen, Toolbar, Typography} from "components/base";
@@ -7,8 +7,8 @@ import {useColor} from "assets/styles/theme";
 import {Center, VStack} from "native-base";
 import {BarCodeScanner, BarCodeScannerResult} from "expo-barcode-scanner";
 import Region from 'assets/images/region.svg';
-import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
-import {CodeRoute, CodeRouteParamList} from "types";
+import {useNavigation} from "@react-navigation/native";
+import {CodeRoute} from "types";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -18,6 +18,8 @@ import Animated, {
   useAnimatedReaction,
   runOnJS,
 } from 'react-native-reanimated'
+import {useEvent} from "components/context";
+
 
 const GetPermission: FC = () => {
   const colors = useColor({
@@ -64,7 +66,7 @@ const NoPermission: FC = () => {
 }
 
 const ScanScreen: FC = () => {
-  const { params } = useRoute<RouteProp<CodeRouteParamList, CodeRoute.Scan>>()
+  const { update, userPin } = useEvent()
 
   const { width, height } = useWindowDimensions()
   const [scanned, setScanned] = useState<boolean>(false)
@@ -128,6 +130,13 @@ const ScanScreen: FC = () => {
     })()
   }, [])
 
+  useEffect(() => {
+    if (userPin !== "" && !error) {
+      // @ts-ignore
+      navigate(CodeRoute.Submit)
+    }
+  }, [userPin])
+
   const isValid = (data: string) => {
     return data.startsWith("HACKPSU")
   }
@@ -149,7 +158,7 @@ const ScanScreen: FC = () => {
       if (_.inRange(leftC, leftR, rightR) && _.inRange(rightC, leftR, rightR) &&
           _.inRange(topC, topR, bottomR) && _.inRange(bottomC, topR, bottomR)) {
         if (isValid(data)) {
-          Alert.alert(`${data}`)
+          update("user", data.split("_")[1])
         } else {
           setError(true)
         }

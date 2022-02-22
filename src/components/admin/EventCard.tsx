@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import {Box, Factory, Pressable, Row, VStack} from "native-base";
+import {Box, Pressable, Row, VStack} from "native-base";
 import {useColor, useShadow} from "assets/styles/theme";
 import {CodeRoute, HomeRoute, IEventCardProps} from "types";
 import {Icon, Typography} from "components/base";
@@ -29,7 +29,7 @@ const EventCard: FC<IEventCardProps> = ({ event, children }) => {
     navigate(HomeRoute.CodeRoute, {
       screen: CodeRoute.Scan,
       params: {
-        eventId: uid
+        eventUid: uid
       }
     })
   }
@@ -39,7 +39,7 @@ const EventCard: FC<IEventCardProps> = ({ event, children }) => {
     navigate(HomeRoute.CodeRoute, {
       screen: CodeRoute.Code,
       params: {
-        eventId: uid
+        eventUid: uid
       }
     })
   }
@@ -62,9 +62,7 @@ const EventCard: FC<IEventCardProps> = ({ event, children }) => {
           { _.startCase(_.lowerCase(title)) }
         </Typography>
         <Typography variant="sub1">
-          { moment.unix(startTime).local().format("h:mmA") }
-           -
-          { moment.unix(endTime).local().format("h:mmA") }
+          { `${moment(startTime).local().format("h:mmA")} - ${moment(endTime).local().format("h:mmA")}` }
         </Typography>
       </VStack>
       <Row mt="2" space="md">

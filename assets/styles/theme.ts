@@ -62,7 +62,7 @@ export const theme = extendTheme({
       100: '#c1eecb',
       200: '#9ce2ac',
       300: '#76d58c',
-      400: '#50c96c',
+      400: '#50c96c',  // default
       500: '#36af53',
       600: '#28883f',
       700: '#1a612c',
@@ -105,6 +105,14 @@ const generateColor = (config: IUseColorConfig) => {
       break;
     case "hacky_blue":
       colorString = "hacky_blue"
+      if (shade) {
+        colorString += `.${shade}`
+      } else {
+        colorString += ".400"
+      }
+      break;
+    case "success":
+      colorString = "success"
       if (shade) {
         colorString += `.${shade}`
       } else {

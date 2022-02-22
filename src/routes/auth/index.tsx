@@ -33,7 +33,6 @@ const getErrorMessage = (error: FirebaseError) => {
       return "Incorrect email or password"
     case FirebaseError.NONE:
       break;
-
   }
 }
 
@@ -82,20 +81,6 @@ const AuthScreen: FC = () => {
           }
         </Row>
         <LoginForm />
-        {/*<Button*/}
-        {/*  mt="16"*/}
-        {/*  backgroundColor={colors.google}*/}
-        {/*  leftIcon={<Icon name="google" fill="#ffffff"/>}*/}
-        {/*>*/}
-        {/*  Sign In With Google*/}
-        {/*</Button>*/}
-        {/*<Button*/}
-        {/*  mt="3"*/}
-        {/*  backgroundColor="black"*/}
-        {/*  leftIcon={<Icon name="github" fill="#ffffff"/>}*/}
-        {/*>*/}
-        {/*  Sign In With GitHub*/}
-        {/*</Button>*/}
       </VStack>
     </Screen>
   )

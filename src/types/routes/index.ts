@@ -12,14 +12,31 @@ export enum HomeRoute {
 
 export enum CodeRoute {
     Scan = "Scan",
-    Code = "Code"
+    Code = "Code",
+    Submit = "Submit"
 }
 
 type CodeRouteParam = {
-    eventId: string
+    eventUid: string
+}
+
+type SubmitRouteParam = CodeRouteParam & {
+    userPin: string
+}
+
+type CodeRouterParam = {
+    screen: string
+    params: CodeRouteParam
+}
+
+export interface CodeRouterParamList extends ParamListBase {
+    [HomeRoute.CodeRoute]: CodeRouterParam
 }
 
 export interface CodeRouteParamList extends ParamListBase {
     [CodeRoute.Code]: CodeRouteParam
     [CodeRoute.Scan]: CodeRouteParam
+    [CodeRoute.Submit]: SubmitRouteParam
 }
+
+

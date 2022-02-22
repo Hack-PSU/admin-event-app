@@ -1,5 +1,5 @@
 import {createContext, FC, useCallback, useContext, useEffect, useMemo, useState} from "react";
-import {Auth, getIdToken, onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from 'firebase/auth'
+import {getIdToken, onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from 'firebase/auth'
 import {FirebaseError, IFirebaseProvider, IFirebaseProviderHooks, JwtToken} from "types";
 import jwt_decode from 'jwt-decode'
 
@@ -7,6 +7,7 @@ const FirebaseContext = createContext<IFirebaseProviderHooks>({} as IFirebasePro
 
 const FirebaseProvider: FC<IFirebaseProvider> = ({ auth, children }) => {
   const [user, setUser] = useState<User>()
+  const [token, setToken] = useState("")
   const [authenticated, setAuthenticated] = useState<boolean>(false)
   const [error, setError] = useState<FirebaseError>(FirebaseError.NONE)
 
@@ -17,8 +18,10 @@ const FirebaseProvider: FC<IFirebaseProvider> = ({ auth, children }) => {
   const validateToken = useCallback(async (user: User) => {
     const token = await getUserIdToken(user)
     const decoded = jwt_decode<JwtToken>(token)
+
+    setToken(token)
     // filter accounts from staging vs prod API
-    if (decoded.iss && decoded.iss.includes("hackpsu18-staging")) {
+    if (decoded.iss && decoded.iss.includes("hackpsu18")) {
       // TeamMember permissions == 2
       if (decoded.privilege && decoded.privilege >= 2) {
         return true
@@ -60,18 +63,18 @@ const FirebaseProvider: FC<IFirebaseProvider> = ({ auth, children }) => {
     setError(FirebaseError.NONE)
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
-
       if (userCredential.user) {
         await resolveAuthState(userCredential.user)
       }
     } catch (e) {
-      resolveAuthError(e.message)
+      resolveAuthError(e.code)
     }
   }, [])
 
   const logout = useCallback(async () => {
     try {
       await signOut(auth)
+      setToken("")
     } catch (e) {
       console.error(e)
     }
@@ -88,13 +91,15 @@ const FirebaseProvider: FC<IFirebaseProvider> = ({ auth, children }) => {
     loginWithEmailAndPassword,
     logout,
     authenticated,
-    error
+    error,
+    token
   }), [
     user,
     loginWithEmailAndPassword,
     logout,
     authenticated,
-    error
+    error,
+    token
   ])
 
   return (

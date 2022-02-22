@@ -1,5 +1,5 @@
 export interface IUseColorConfig {
-  color: "stadium_orange" | "creamery" | "university_blue" | "hacky_blue" | "black" | "white" | string
+  color: "stadium_orange" | "creamery" | "university_blue" | "hacky_blue" | "success" | "black" | "white" | string
   shade?: "50" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900"
   opacity?: number
 }

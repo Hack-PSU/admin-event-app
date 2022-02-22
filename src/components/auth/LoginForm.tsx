@@ -4,10 +4,12 @@ import {Button, ControlledInput} from "components/base";
 import LoginInput, { LoginPasswordInput } from "components/auth/LoginInput";
 import {useColor} from "assets/styles/theme";
 import {useFirebase} from "components/context/FirebaseProvider";
+import {useNavigation} from "@react-navigation/native";
 
 const LoginForm: FC = () => {
   const methods = useForm()
   const { loginWithEmailAndPassword } = useFirebase()
+  const { navigate } = useNavigation()
 
   const colors = useColor({
     placeholderColor: {
@@ -22,9 +24,6 @@ const LoginForm: FC = () => {
     methods.handleSubmit(async (data, event) => {
       await loginWithEmailAndPassword(data.email, data.password)
     })()
-      .then(done => {
-        // navigation done by root router
-      })
   }
 
   return (

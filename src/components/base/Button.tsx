@@ -4,7 +4,7 @@ import {ButtonProps} from "types/components";
 import Typography from "components/base/Typography";
 import {useColor} from "assets/styles/theme";
 
-const Button: FC<ButtonProps> = ({ leftIcon, rightIcon, children, backgroundColor, color, fontSize, variant, disabled, ...props }) => {
+const Button: FC<ButtonProps> = ({ leftIconMl, leftIcon, rightIcon, children, backgroundColor, color, fontSize, variant, disabled, ...props }) => {
   const colors = useColor({
     bg: {
       color: "stadium_orange"
@@ -22,7 +22,7 @@ const Button: FC<ButtonProps> = ({ leftIcon, rightIcon, children, backgroundColo
       leftIcon={
         leftIcon &&
         <NativeIcon
-          ml="2.5"
+          ml={leftIconMl ?? "2.5"}
           as={leftIcon}
         />
       }

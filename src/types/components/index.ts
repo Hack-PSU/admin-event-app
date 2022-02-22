@@ -4,6 +4,7 @@ import React from "react";
 import {StatusBarStyle} from "react-native";
 import {Auth, User} from "firebase/auth";
 import {JwtPayload} from "jwt-decode";
+import {AxiosInstance} from "axios";
 
 type TextStyle = "h1" | "h2" | "h3" | "h4" | "sub1" | "sub2" | "button" | "body1" | "body2" | "caption" | "overline"
 type FontStyle = "header" | "sub" | "p"
@@ -48,6 +49,7 @@ export type ButtonProps = Omit<IButtonProps, "children"> & Partial<Pick<ITextPro
   rightIcon?: JSX.Element
   color?: string
   disabled?: boolean
+  leftIconMl?: ITextProps["ml"]
 }
 
 export interface IActionCardProps {
@@ -84,6 +86,7 @@ export interface IFirebaseProviderHooks {
   authenticated: boolean
   user?: User
   error: FirebaseError
+  token: string
 }
 
 export interface JwtToken extends JwtPayload {
@@ -93,6 +96,60 @@ export interface JwtToken extends JwtPayload {
 export enum FirebaseError {
   NO_PERMISSION,
   MISSING_EMAIL,
+  WRONG_PASSWORD,
   INVALID,
   NONE
+}
+
+export interface ICheckInWorkshopResp {
+  result: "Success" | "Error"
+  data: any
+}
+
+export interface IApiProviderHooks {
+  api?: AxiosInstance
+  checkInWorkshop(event_id: string, user_pin: string): Promise<boolean>
+  getEvents(): Promise<IEventItem[]>
+}
+
+export interface IApiProviderProps {
+  baseURL: string
+}
+
+export interface ILottieProps {
+  loop?: boolean
+  play?: boolean
+  stop?: boolean
+  source: any
+  width?: number
+  height?: number
+  autoPlay?: boolean
+}
+
+export type SubmissionStatus = "submit" | "success" | "error"
+
+export interface IStatusProps {
+  status: SubmissionStatus
+}
+
+export interface IStatusButtonProps {
+  onPressHome(): void
+  onPressBack(): void
+}
+
+export interface IEventProviderProps {
+  eventUid: string
+}
+
+export interface IEventProviderHooks {
+  eventUid: string
+  userPin: string
+  update(action: "event" | "user", payload: string): void
+}
+
+export interface IEventItem {
+  uid: string
+  title: string
+  startTime: number
+  endTime: number
 }

@@ -1,4 +1,4 @@
-// import 'dotenv/config'
+import 'dotenv/config'
 
 export default {
   "expo": {
@@ -30,15 +30,29 @@ export default {
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "staging": {
-        "apiKey": process.env.STAGING_API_KEY,
-        "authDomain": process.env.STAGING_AUTH_DOMAIN,
-        "databaseUrl": process.env.STAGING_DB_URL,
-        "projectId": process.env.STAGING_PROJECT_ID,
-        "storageBucket": process.env.STAGING_STORAGE_BUCKET,
-        "messagingSenderId": process.env.STAGING_MESSAGING_SENDER_ID,
-        "appId": process.env.STAGING_APP_ID
+    extra: {
+      staging: process.env.STAGING === 'true',
+      config: {
+        staging: {
+          apiKey: process.env.STAGING_API_KEY,
+          authDomain: process.env.STAGING_AUTH_DOMAIN,
+          databaseUrl: process.env.STAGING_DB_URL,
+          projectId: process.env.STAGING_PROJECT_ID,
+          storageBucket: process.env.STAGING_STORAGE_BUCKET,
+          messagingSenderId: process.env.STAGING_MESSAGING_SENDER_ID,
+          appId: process.env.STAGING_APP_ID,
+          baseURL: process.env.STAGING_BASE_URL
+        },
+        prod: {
+          apiKey: process.env.PROD_API_KEY,
+          authDomain: process.env.PROD_AUTH_DOMAIN,
+          databaseUrl: process.env.PROD_DB_URL,
+          projectId: process.env.PROD_PROJECT_ID,
+          storageBucket: process.env.PROD_STORAGE_BUCKET,
+          messagingSenderId: process.env.PROD_MESSAGING_SENDER_ID,
+          appId: process.env.PROD_APP_ID,
+          baseURL: process.env.PROD_BASE_URL
+        }
       }
     }
   }

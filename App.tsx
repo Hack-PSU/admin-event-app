@@ -6,13 +6,14 @@ import AppLoading from "expo-app-loading";
 import Root from "routes/index";
 import {theme} from "assets/styles/theme";
 
-import FirebaseProvider from "components/context/FirebaseProvider";
+import {FirebaseProvider, ApiProvider} from "components/context";
 import {getEnvironment} from "./config/release";
 import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth";
 
-const env = getEnvironment()
-initializeApp(env.firebaseConfig)
+const config = getEnvironment()
+initializeApp(config)
+
 const auth = getAuth()
 
 export default function App() {
@@ -31,7 +32,9 @@ export default function App() {
     <NavigationContainer>
       <NativeBaseProvider theme={theme}>
         <FirebaseProvider auth={auth}>
-          <Root />
+          <ApiProvider baseURL={config.baseURL}>
+            <Root />
+          </ApiProvider>
         </FirebaseProvider>
       </NativeBaseProvider>
     </NavigationContainer>
