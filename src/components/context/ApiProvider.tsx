@@ -22,8 +22,6 @@ const ApiProvider: FC<IApiProviderProps> = ({ baseURL, children }) => {
     }
   }, [token])
 
-  console.log(token)
-
   const checkInWorkshop = useCallback(async (event_id: string, user_pin: string) => {
     if (api.current) {
       try {

@@ -79,6 +79,9 @@ const ScanScreen: FC = () => {
   const regionWidth = 300
   const regionHeight = 300
 
+  const topThresh = 100
+  const bottomThresh = 100
+
   const offsetTopText = height / 15
   const offsetTopRegion = height / 6
   const offsetTopScanButton = offsetTopRegion + regionHeight + height / 20
@@ -141,14 +144,14 @@ const ScanScreen: FC = () => {
     return data.startsWith("HACKPSU")
   }
 
-  const handleScan = ({ type, data, cornerPoints }: BarCodeScannerResult) => {
+  const handleScan = ({ type, data, cornerPoints, bounds }: BarCodeScannerResult) => {
     setScanned(false)
     if (cornerPoints) {
       const [tl, tr, br, bl] = cornerPoints
       const leftR = (width - regionWidth) / 2
       const rightR = leftR + regionWidth
-      const topR = offsetTopRegion
-      const bottomR = offsetTopRegion + regionHeight
+      const topR = offsetTopRegion + topThresh
+      const bottomR = offsetTopRegion + regionHeight + bottomThresh
 
       const leftC = _.min([tl.x, bl.x]) ?? 0
       const rightC = _.max([tr.x, br.x]) ?? 0
