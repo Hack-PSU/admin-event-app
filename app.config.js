@@ -17,7 +17,9 @@ export default {
       "fallbackToCacheTimeout": 0,
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/images/*",
+      "assets/lottie/*",
+      "assets/fonts/*"
     ],
     "ios": {
       "supportsTablet": true,
