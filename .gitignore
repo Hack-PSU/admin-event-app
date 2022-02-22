@@ -15,4 +15,3 @@ web-build/
 
 # Environment Variables
 .env
-config/
