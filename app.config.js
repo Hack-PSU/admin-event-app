@@ -5,6 +5,7 @@ export default {
     "name": "admin-app",
     "slug": "admin-app",
     "version": "1.0.0",
+    "owner": "hackpsu",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
