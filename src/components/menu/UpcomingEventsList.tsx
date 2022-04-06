@@ -35,7 +35,7 @@ const UpcomingEventsList: FC<IUpcomingEventsListProps> = ({ events }) => {
   return (
     <FlatList
       px="5"
-      contentContainerStyle={{ paddingBottom: 150 }}
+      contentContainerStyle={{ paddingBottom: 320 }}
       data={events}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item.uid}

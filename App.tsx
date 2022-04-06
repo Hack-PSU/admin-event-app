@@ -31,6 +31,7 @@ const cacheImages = (images: any[]): any[] => {
 
 const client = new QueryClient()
 
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,

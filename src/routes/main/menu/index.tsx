@@ -40,7 +40,7 @@ const MenuScreen: FC = () => {
       getNextEvent()
       const timer = setInterval(() => {
         getNextEvent()
-      }, 30 * 60 * 1000)
+      }, 10 * 60 * 1000)
 
       return () => clearInterval(timer)
     }
