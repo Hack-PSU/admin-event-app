@@ -44,7 +44,8 @@ export default {
           storageBucket: process.env.STAGING_STORAGE_BUCKET,
           messagingSenderId: process.env.STAGING_MESSAGING_SENDER_ID,
           appId: process.env.STAGING_APP_ID,
-          baseURL: process.env.STAGING_BASE_URL
+          baseURL: process.env.STAGING_BASE_URL,
+          notificationBaseURL: process.env.STAGING_NOTIFICATION_BASE_URL
         },
         prod: {
           apiKey: process.env.PROD_API_KEY,
@@ -54,7 +55,8 @@ export default {
           storageBucket: process.env.PROD_STORAGE_BUCKET,
           messagingSenderId: process.env.PROD_MESSAGING_SENDER_ID,
           appId: process.env.PROD_APP_ID,
-          baseURL: process.env.PROD_BASE_URL
+          baseURL: process.env.PROD_BASE_URL,
+          notificationBaseURL: process.env.PROD_NOTIFICATION_BASE_URL
         }
       }
     }

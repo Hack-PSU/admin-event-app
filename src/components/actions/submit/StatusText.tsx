@@ -10,7 +10,7 @@ const displayStatus = (status: SubmissionStatus) => {
 
 const AnimatedBox = Animated.createAnimatedComponent(Box)
 
-const StatusText: FC<IStatusProps> = ({ status }) => {
+const StatusText: FC<Omit<IStatusProps, "fromAdmin">> = ({ status }) => {
   switch (status) {
     case "submit":
       return (

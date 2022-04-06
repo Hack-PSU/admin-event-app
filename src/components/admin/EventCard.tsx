@@ -7,7 +7,7 @@ import _ from "lodash";
 import moment from "moment";
 import {useNavigation} from "@react-navigation/native";
 
-const EventCard: FC<IEventCardProps> = ({ event, children }) => {
+const EventCard: FC<IEventCardProps> = ({ onNavigateCode, onNavigateScan, event, children }) => {
   const { navigate } = useNavigation()
   const { uid, title, startTime, endTime } = event
 
@@ -25,23 +25,33 @@ const EventCard: FC<IEventCardProps> = ({ event, children }) => {
   })
 
   const onPressScan = () => {
-    // @ts-ignore
-    navigate(HomeRoute.CodeRoute, {
-      screen: CodeRoute.Scan,
-      params: {
-        eventUid: uid
-      }
-    })
+    if (onNavigateScan) {
+      onNavigateScan()
+    } else {
+      // @ts-ignore
+      navigate(HomeRoute.CodeRoute, {
+        screen: CodeRoute.Scan,
+        params: {
+          eventUid: uid,
+          fromAdmin: false,
+        }
+      })
+    }
   }
 
   const onPressCode = () => {
-    // @ts-ignore
-    navigate(HomeRoute.CodeRoute, {
-      screen: CodeRoute.Code,
-      params: {
-        eventUid: uid
-      }
-    })
+    if (onNavigateCode) {
+      onNavigateCode()
+    } else {
+      // @ts-ignore
+      navigate(HomeRoute.CodeRoute, {
+        screen: CodeRoute.Code,
+        params: {
+          eventUid: uid,
+          fromAdmin: false
+        }
+      })
+    }
   }
 
   const shadowStyle = useShadow()

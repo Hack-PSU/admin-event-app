@@ -2,12 +2,24 @@ import {ParamListBase} from "@react-navigation/routers";
 
 export enum RootRoute {
     Auth = "Auth",
-    HomeRoute = "Home"
+    Main = "MainRouter"
+}
+
+export enum MainRoute {
+    Menu = "Menu",
+    Home = "Home",
+    Hub = "Hub"
 }
 
 export enum HomeRoute {
     Admin = "Admin",
     CodeRoute = "CodeRouter"
+}
+
+export enum HubRoute {
+    Consent = "Consent",
+    Draft = "Draft",
+    Review = "Review"
 }
 
 export enum CodeRoute {
@@ -18,6 +30,7 @@ export enum CodeRoute {
 
 type CodeRouteParam = {
     eventUid: string
+    fromAdmin: boolean
 }
 
 type SubmitRouteParam = CodeRouteParam & {
@@ -29,8 +42,18 @@ type CodeRouterParam = {
     params: CodeRouteParam
 }
 
+type AdminRouteParam = {
+    params: {
+        fromAdmin: boolean
+    }
+}
+
 export interface CodeRouterParamList extends ParamListBase {
     [HomeRoute.CodeRoute]: CodeRouterParam
+}
+
+export interface HomeRouterParamList extends ParamListBase {
+    [HomeRoute.Admin]: AdminRouteParam
 }
 
 export interface CodeRouteParamList extends ParamListBase {

@@ -6,14 +6,15 @@ import AppLoading from "expo-app-loading";
 import Root from "routes/index";
 import {theme} from "assets/styles/theme";
 
-import {FirebaseProvider, ApiProvider} from "components/context";
+import {FirebaseProvider, ApiProvider, NotificationProvider} from "components/context";
 import {getEnvironment} from "./config/release";
 import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth";
 import {Image} from "react-native";
 import {Asset} from "expo-asset";
+import {QueryClient, QueryClientProvider} from "react-query";
 
-const config = getEnvironment()
+const config = getEnvironment("prod")
 initializeApp(config)
 
 const auth = getAuth()
@@ -27,6 +28,8 @@ const cacheImages = (images: any[]): any[] => {
     }
   })
 }
+
+const client = new QueryClient()
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -65,9 +68,13 @@ export default function App() {
     <NavigationContainer>
       <NativeBaseProvider theme={theme}>
         <FirebaseProvider auth={auth}>
+          <QueryClientProvider client={client}>
           <ApiProvider baseURL={config.baseURL}>
-            <Root />
+            <NotificationProvider baseURL={config.notificationBaseURL}>
+              <Root />
+            </NotificationProvider>
           </ApiProvider>
+          </QueryClientProvider>
         </FirebaseProvider>
       </NativeBaseProvider>
     </NavigationContainer>

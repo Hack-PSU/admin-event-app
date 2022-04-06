@@ -1,8 +1,8 @@
 import React, {FC} from 'react'
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {HomeRoute} from "types";
-import AdminScreen from "routes/home/admin";
-import CodeRouter from "routes/home/actions";
+import AdminScreen from "routes/main/home/admin";
+import CodeRouter from "routes/main/home/actions";
 
 const Stack = createNativeStackNavigator()
 

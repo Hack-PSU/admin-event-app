@@ -2,6 +2,7 @@ import {createContext, FC, useCallback, useContext, useEffect, useMemo, useState
 import {getIdToken, onAuthStateChanged, signInWithEmailAndPassword, signOut, User} from 'firebase/auth'
 import {FirebaseError, IFirebaseProvider, IFirebaseProviderHooks, JwtToken} from "types";
 import jwt_decode from 'jwt-decode'
+import {AuthPrivilege} from "types/auth";
 
 const FirebaseContext = createContext<IFirebaseProviderHooks>({} as IFirebaseProviderHooks)
 
@@ -23,13 +24,25 @@ const FirebaseProvider: FC<IFirebaseProvider> = ({ auth, children }) => {
     // filter accounts from staging vs prod API
     if (decoded.iss && decoded.iss.includes("hackpsu18")) {
       // TeamMember permissions == 2
-      if (decoded.privilege && decoded.privilege >= 2) {
+      if (decoded.privilege && decoded.privilege >= AuthPrivilege.TEAM) {
         return true
       }
     }
     setError(FirebaseError.NO_PERMISSION)
     return false
   }, [])
+
+  const validatePermissions = useCallback( (privilege: number) => {
+    if (token) {
+      const decoded = jwt_decode<JwtToken>(token)
+      if (decoded.iss && decoded.iss.includes("hackpsu18")) {
+        if (decoded.privilege && decoded.privilege >= privilege) {
+          return true
+        }
+      }
+    }
+    return false
+  }, [token])
 
   const resolveAuthState = useCallback(async (user?: User) => {
     if (user) {
@@ -92,14 +105,16 @@ const FirebaseProvider: FC<IFirebaseProvider> = ({ auth, children }) => {
     logout,
     authenticated,
     error,
-    token
+    token,
+    validatePermissions,
   }), [
     user,
     loginWithEmailAndPassword,
     logout,
     authenticated,
     error,
-    token
+    token,
+    validatePermissions,
   ])
 
   return (

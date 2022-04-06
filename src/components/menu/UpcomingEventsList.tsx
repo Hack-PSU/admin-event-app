@@ -1,23 +1,22 @@
-import React, {FC, useEffect, useRef, useState} from "react";
+import React, {FC, useEffect, useRef} from "react";
 import {IEventItem} from "types";
 import {Box, FlatList} from "native-base";
-import {EventCard} from "components/admin/index";
+import {EventCard} from "components/admin";
 import LottieView from "lottie-react-native";
-import {useApi} from "components/context";
-import {useQuery} from "react-query";
+import UpcomingEventsCard from "components/menu/UpcomingEventsCard";
 
-const EventList: FC = () => {
+interface IUpcomingEventsListProps {
+  events?: IEventItem[]
+}
+
+const UpcomingEventsList: FC<IUpcomingEventsListProps> = ({ events }) => {
   const animation = useRef<LottieView>(null)
-  // const [events, setEvents] = useState<IEventItem[]>([])
-  const { getEvents } = useApi()
-
-  const { data: events, status } = useQuery("events", () => getEvents())
 
   useEffect(() => {
     setTimeout(() => animation.current && animation.current.play(), 100)
   }, [animation.current])
 
-  if (status === "loading" || !events) {
+  if (!events) {
     return (
       <Box width="full">
         <LottieView
@@ -35,17 +34,16 @@ const EventList: FC = () => {
 
   return (
     <FlatList
-      mt="1"
       px="5"
       contentContainerStyle={{ paddingBottom: 150 }}
       data={events}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item.uid}
       renderItem={({ item, index }) =>
-        <EventCard event={item} key={`${item.uid}-${index}`} />
+        <UpcomingEventsCard event={item} key={`${item.uid}-${index}`} />
       }
     />
   )
 }
 
-export default EventList
+export default UpcomingEventsList

@@ -3,7 +3,7 @@ import {IEventProviderHooks, IEventProviderProps} from "types";
 
 const EventContext = createContext<IEventProviderHooks>({} as IEventProviderHooks)
 
-const EventProvider: FC<IEventProviderProps> = ({ eventUid: eventId, children }) => {
+const EventProvider: FC<IEventProviderProps> = ({ fromAdmin, eventUid: eventId, children }) => {
   const [eventUid, setEventUid] = useState<string>(eventId)
   const [userPin, setUserPin] = useState<string>("")
 
@@ -19,11 +19,13 @@ const EventProvider: FC<IEventProviderProps> = ({ eventUid: eventId, children })
   const value = useMemo(() => ({
     eventUid,
     userPin,
-    update
+    update,
+    fromAdmin,
   }), [
     eventUid,
     userPin,
-    update
+    update,
+    fromAdmin
   ])
 
   return (

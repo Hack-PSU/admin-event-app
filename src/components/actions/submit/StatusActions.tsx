@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {HomeRoute, IStatusButtonProps, IStatusProps} from "types";
+import {HomeRoute, IStatusButtonProps, IStatusProps, MainRoute} from "types";
 import {Button, Typography} from "components/base";
 import {useColor} from "assets/styles/theme";
 import {useNavigation} from "@react-navigation/native";
@@ -7,10 +7,13 @@ import Animated, {FadeIn, FadeOut} from "react-native-reanimated";
 import {Box} from "native-base";
 import {useEvent} from "components/context";
 
-const SuccessButtons: FC<IStatusButtonProps> = ({ onPressBack, onPressHome }) => {
+const SuccessButtons: FC<IStatusButtonProps> = ({ onPressEvents, onPressBack, onPressHome }) => {
   const colors = useColor({
-    homeBtn: {
+    eventsBtn: {
       color: "hacky_blue",
+    },
+    homeBtn: {
+      color: "university_blue",
     },
     backBtn: {
       color: "stadium_orange"
@@ -22,8 +25,11 @@ const SuccessButtons: FC<IStatusButtonProps> = ({ onPressBack, onPressHome }) =>
 
   return (
     <>
-      <Button backgroundColor={colors.homeBtn} onPress={onPressHome}>
-        Go Home
+      <Button backgroundColor={colors.eventsBtn} onPress={onPressEvents}>
+        Go To Events
+      </Button>
+      <Button backgroundColor={colors.homeBtn} onPress={onPressHome} mt="5">
+        Go To Home
       </Button>
       <Button backgroundColor={colors.backBtn} onPress={onPressBack} mt="5">
         Go Back
@@ -53,17 +59,27 @@ const AnimatedBox = Animated.createAnimatedComponent(Box)
 
 const StatusActions: FC<IStatusProps> = ({ status }) => {
   const { navigate, goBack } = useNavigation()
-  const { update } = useEvent()
+  const { update, fromAdmin } = useEvent()
 
   const onPressHome = () => {
     update("user", "")
     // @ts-ignore
-    navigate(HomeRoute.Admin)
+    navigate(MainRoute.Menu)
   }
 
   const onPressBack = () => {
     update("user", "")
     goBack()
+  }
+
+  const onPressEvents = () => {
+    update("user", "")
+    // @ts-ignore
+    navigate(HomeRoute.Admin, {
+      params: {
+        fromAdmin: fromAdmin
+      }
+    })
   }
 
   switch (status) {
@@ -72,7 +88,7 @@ const StatusActions: FC<IStatusProps> = ({ status }) => {
     case "success":
       return (
         <AnimatedBox entering={FadeIn} exiting={FadeOut}>
-          <SuccessButtons onPressHome={onPressHome} onPressBack={onPressBack} />
+          <SuccessButtons onPressEvents={onPressEvents} onPressHome={onPressHome} onPressBack={onPressBack} />
         </AnimatedBox>
       )
     case "error":

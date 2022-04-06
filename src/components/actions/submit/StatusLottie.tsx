@@ -56,7 +56,7 @@ export const Error: FC = () => {
   )
 }
 
-const StatusLottie: FC<IStatusProps> = ({ status }) => {
+const StatusLottie: FC<Omit<IStatusProps, "fromAdmin">> = ({ status }) => {
   return (
     <>
       { status === "submit" && <Submission />}
