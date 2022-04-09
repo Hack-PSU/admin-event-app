@@ -207,6 +207,7 @@ export interface INotificationProviderHooks {
   showConsent: boolean
   createNotification(to: "all" | "user" | string, payload: INotificationPayload, topicDisplay?: string): void
   sendNotification(): Promise<INotificationResponse>
+  reset(): void
   request: NotificationRequest
   topicDisplay: string
 }

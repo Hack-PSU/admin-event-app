@@ -85,18 +85,24 @@ const NotificationProvider: FC<INotificationProviderProps> = ({ baseURL, childre
     return {} as INotificationResponse
   }, [request])
 
+  const reset = useCallback(() => {
+    setRequest({} as NotificationRequest)
+  }, [])
+
   const value = useMemo(() => ({
     showConsent,
     createNotification,
     sendNotification,
     request,
     topicDisplay,
+    reset,
   }), [
     showConsent,
     createNotification,
     sendNotification,
     request,
-    topicDisplay
+    topicDisplay,
+    reset
   ])
 
   return (

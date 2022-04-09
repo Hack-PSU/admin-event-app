@@ -12,7 +12,11 @@ import DraftUserScreen from "routes/main/hub/user";
 const Stack = createNativeStackNavigator()
 
 const HubRouter: FC = () => {
-  const { showConsent } = useNotification()
+  const { showConsent, reset } = useNotification()
+
+  useEffect(() => {
+    reset()
+  }, [])
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

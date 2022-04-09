@@ -69,7 +69,7 @@ const EventCard: FC<IEventCardProps> = ({ onNavigateCode, onNavigateScan, event,
     >
       <VStack space="2xs" flexGrow="2">
         <Typography variant="h2" bold fontSize="lg" numberOfLines={2}>
-          { _.startCase(_.lowerCase(title)) }
+          { title }
         </Typography>
         <Typography variant="sub1">
           { `${moment(startTime).local().format("h:mmA")} - ${moment(endTime).local().format("h:mmA")}` }
