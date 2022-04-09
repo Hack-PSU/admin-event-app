@@ -195,16 +195,17 @@ export interface INotificationPayload {
   metadata?: INotificationMetadata
   isScheduled?: boolean
   scheduleTime?: number
+  userPin?: string
 }
 
 export type NotificationRequest = INotificationPayload & {
-  type: "broadcast" | "topic"
+  type: "broadcast" | "topic" | "user"
   to: "all" | string
 }
 
 export interface INotificationProviderHooks {
   showConsent: boolean
-  createNotification(to: "all" | string, payload: INotificationPayload, topicDisplay?: string): void
+  createNotification(to: "all" | "user" | string, payload: INotificationPayload, topicDisplay?: string): void
   sendNotification(): Promise<INotificationResponse>
   request: NotificationRequest
   topicDisplay: string

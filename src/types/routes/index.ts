@@ -19,7 +19,8 @@ export enum HomeRoute {
 export enum HubRoute {
     Consent = "Consent",
     Draft = "Draft",
-    Review = "Review"
+    Review = "Review",
+    User = "User"
 }
 
 export enum CodeRoute {

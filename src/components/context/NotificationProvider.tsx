@@ -30,8 +30,8 @@ const NotificationProvider: FC<INotificationProviderProps> = ({ baseURL, childre
   }, [token])
 
   const createNotification: INotificationProviderHooks["createNotification"] =
-    useCallback((to, payload, topicDisplay?: string) => {
-      const request: NotificationRequest = { to, ...payload } as NotificationRequest
+    useCallback((to, { userPin, ...payload }, topicDisplay?: string) => {
+      const request: NotificationRequest = { ...payload } as NotificationRequest
 
       if (topicDisplay) {
         setTopicDisplay(topicDisplay)
@@ -40,8 +40,13 @@ const NotificationProvider: FC<INotificationProviderProps> = ({ baseURL, childre
       if (to === "all") {
         // is broadcast
         request.type = "broadcast"
+        request.to = "all"
+      } else if (to === "user" && userPin) {
+        request.type = "user"
+        request.to = userPin
       } else {
         request.type = "topic"
+        request.to = to
       }
       setRequest(request)
       // return request
@@ -57,7 +62,14 @@ const NotificationProvider: FC<INotificationProviderProps> = ({ baseURL, childre
             topic: request.to
           })
           return res.data
-        } else {
+        } else if (request.type === "user") {
+          const res = await api.current.post("/message/send", {
+            title: request.title,
+            message: request.message,
+            userPin: request.to
+          })
+          return res.data
+        } else if (request.type === "broadcast") {
           const res = await api.current.post("/message/send", {
             title: request.title,
             message: request.message,

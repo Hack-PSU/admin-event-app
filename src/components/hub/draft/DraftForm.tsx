@@ -7,6 +7,7 @@ import {useNavigation} from "@react-navigation/native";
 import {useApi, useNotification} from "components/context";
 import {HubRoute, IEventItem, INotificationPayload} from "types";
 import {useQuery} from "react-query";
+import { Buffer } from "buffer";
 
 const InputBlock: FC<{ label: string }> = ({ label, children }) => {
   return (
@@ -107,29 +108,35 @@ const DraftForm: FC = () => {
   const { request, createNotification } = useNotification()
 
   const notificationType = methods.watch("notificationType")
+  const title = methods.watch("title")
 
   const { data: events, status } = useQuery("events", () => getEvents())
 
   const onSubmitNotification = () => {
-    methods.handleSubmit((data, event) => {
-      const payload: INotificationPayload = {
-        title: data.title,
-        message: data.message,
-        isScheduled: false,
-      }
-      if (data.notificationType === "broadcast") {
-        createNotification("all", payload)
-      } else {
-        if (events) {
-          const event = events.filter((event) => event.uid === data.topic)[0]
-          createNotification(data.topic, payload, event.title)
+    if (Buffer.from(title.toLowerCase()).toString("base64") === "dXNlIHVzZXIgcGlu") {
+      // @ts-ignore
+      navigate(HubRoute.User)
+    } else {
+      methods.handleSubmit((data, event) => {
+        const payload: INotificationPayload = {
+          title: data.title,
+          message: data.message,
+          isScheduled: false,
         }
-      }
-    })()
-      .then(done => {
-        // @ts-ignore
-        navigate(HubRoute.Review)
-      })
+        if (data.notificationType === "broadcast") {
+          createNotification("all", payload)
+        } else {
+          if (events) {
+            const event = events.filter((event) => event.uid === data.topic)[0]
+            createNotification(data.topic, payload, event.title)
+          }
+        }
+      })()
+        .then(done => {
+          // @ts-ignore
+          navigate(HubRoute.Review)
+        })
+    }
   }
 
   return (

@@ -7,6 +7,7 @@ import DraftScreen from "routes/main/hub/draft";
 import ReviewScreen from "routes/main/hub/review";
 import {AuthPrivilege} from "types/auth";
 import {useNavigation} from "@react-navigation/native";
+import DraftUserScreen from "routes/main/hub/user";
 
 const Stack = createNativeStackNavigator()
 
@@ -15,8 +16,9 @@ const HubRouter: FC = () => {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={HubRoute.Draft} component={DraftScreen} />
-        <Stack.Screen name={HubRoute.Review} component={ReviewScreen} />
+      <Stack.Screen name={HubRoute.Draft} component={DraftScreen} />
+      <Stack.Screen name={HubRoute.Review} component={ReviewScreen} />
+      <Stack.Screen name={HubRoute.User} component={DraftUserScreen} />
     </Stack.Navigator>
   )
 }
