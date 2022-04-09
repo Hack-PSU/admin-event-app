@@ -1,23 +1,34 @@
 import React, {FC, useEffect, useRef, useState} from "react";
-import {IEventItem} from "types";
+import {Filter, IEventItem} from "types";
 import {Box, FlatList} from "native-base";
 import {EventCard} from "components/admin/index";
 import LottieView from "lottie-react-native";
 import {useApi} from "components/context";
 import {useQuery} from "react-query";
+import _ from "lodash";
 
-const EventList: FC = () => {
+const EventList: FC<{ filter: Filter }> = ({ filter }) => {
   const animation = useRef<LottieView>(null)
-  // const [events, setEvents] = useState<IEventItem[]>([])
+  const [filteredEvents, setFilteredEvents] = useState<IEventItem[]>([])
   const { getEvents } = useApi()
 
   const { data: events, status } = useQuery("events", () => getEvents())
 
   useEffect(() => {
+    if (status === "success" && events) {
+      if (filter !== "all") {
+        setFilteredEvents(_.filter(events, (event) => event.type === filter))
+      } else {
+        setFilteredEvents(events)
+      }
+    }
+  }, [events, status, filter])
+
+  useEffect(() => {
     setTimeout(() => animation.current && animation.current.play(), 100)
   }, [animation.current])
 
-  if (status === "loading" || !events) {
+  if (status === "loading" || !events || !filteredEvents) {
     return (
       <Box width="full">
         <LottieView
@@ -38,7 +49,7 @@ const EventList: FC = () => {
       mt="1"
       px="5"
       contentContainerStyle={{ paddingBottom: 150 }}
-      data={events}
+      data={filteredEvents}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item.uid}
       renderItem={({ item, index }) =>

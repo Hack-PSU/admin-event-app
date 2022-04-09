@@ -44,6 +44,18 @@ export const Success: FC = () => {
   )
 }
 
+export const Caution: FC = () => {
+  return (
+    <AnimatedLottie>
+      <Lottie
+        source={require("assets/lottie/caution.json")}
+        autoPlay={true}
+        loop={false}
+      />
+    </AnimatedLottie>
+  )
+}
+
 export const Error: FC = () => {
   return (
     <AnimatedLottie>
@@ -59,6 +71,7 @@ export const Error: FC = () => {
 const StatusLottie: FC<Omit<IStatusProps, "fromAdmin">> = ({ status }) => {
   return (
     <>
+      { status === "duplicate" && <Caution /> }
       { status === "submit" && <Submission />}
       { status === "success" && <Success /> }
       { status === "error" && <Error /> }

@@ -85,6 +85,7 @@ export interface IToolbarProps {
   back?: boolean
   width?: number
   height?: number
+  right?: boolean
   onPressBack?(): void
 }
 
@@ -121,7 +122,7 @@ export interface ICheckInWorkshopResp {
 
 export interface IApiProviderHooks {
   api?: AxiosInstance
-  checkInWorkshop(event_id: string, user_pin: string): Promise<boolean>
+  checkInWorkshop(event_id: string, user_pin: string): Promise<{ valid: boolean, status: number }>
   getEvents(): Promise<IEventItem[]>
 }
 
@@ -139,7 +140,7 @@ export interface ILottieProps {
   autoPlay?: boolean
 }
 
-export type SubmissionStatus = "submit" | "success" | "error"
+export type SubmissionStatus = "submit" | "success" | "error" | "duplicate"
 
 export interface IStatusProps {
   status: SubmissionStatus
@@ -163,11 +164,14 @@ export interface IEventProviderHooks {
   fromAdmin: boolean
 }
 
+export type EventType = "food" | "activity" | "workshop"
+
 export interface IEventItem {
   uid: string
   title: string
   startTime: number
   endTime: number
+  type: EventType
 }
 
 interface INotificationMetadata {
@@ -239,3 +243,5 @@ export type SelectProps = Omit<ISelectProps, "children" | "placeholder"> & {
 export type ControlledSelectProps = SelectProps & UseControllerProps & {
   as?: React.FC<SelectProps>
 }
+
+export type Filter = "all" | EventType

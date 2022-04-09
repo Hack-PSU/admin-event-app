@@ -6,6 +6,7 @@ import {useNavigation} from "@react-navigation/native";
 import Animated, {FadeIn, FadeOut} from "react-native-reanimated";
 import {Box} from "native-base";
 import {useEvent} from "components/context";
+import {Error} from "components/actions/submit/StatusLottie";
 
 const SuccessButtons: FC<IStatusButtonProps> = ({ onPressEvents, onPressBack, onPressHome }) => {
   const colors = useColor({
@@ -83,6 +84,12 @@ const StatusActions: FC<IStatusProps> = ({ status }) => {
   }
 
   switch (status) {
+    case "duplicate":
+      return (
+        <AnimatedBox entering={FadeIn} exiting={FadeOut}>
+          <ErrorButtons onPressBack={onPressBack} />
+        </AnimatedBox>
+      )
     case "submit":
       return null
     case "success":
@@ -97,6 +104,7 @@ const StatusActions: FC<IStatusProps> = ({ status }) => {
           <ErrorButtons onPressBack={onPressBack} />
         </AnimatedBox>
       )
+
   }
 }
 

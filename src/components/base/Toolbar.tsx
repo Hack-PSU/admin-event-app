@@ -5,7 +5,7 @@ import {Row} from "native-base";
 import Icon from "components/base/Icon";
 import {useColor} from "assets/styles/theme";
 
-const Toolbar: FC<IToolbarProps> = ({ onPressBack, color,back, width, height }) => {
+const Toolbar: FC<IToolbarProps> = ({ right, onPressBack, color,back, width, height }) => {
   const { goBack } = useNavigation()
   const colors = useColor({
     defaultFill: {
@@ -14,7 +14,7 @@ const Toolbar: FC<IToolbarProps> = ({ onPressBack, color,back, width, height }) 
   })
 
   return (
-    <Row justifyContent="flex-start" mt="2">
+    <Row justifyContent={right ? "flex-end" : "flex-start"} mt="2">
       { back ?
         <Icon name="arrow-back-outline" onPress={onPressBack ?? goBack} fill={color ?? colors.defaultFill}
           width={width ?? 30} height={height ?? 30}

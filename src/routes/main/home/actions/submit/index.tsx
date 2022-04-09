@@ -22,15 +22,19 @@ const SubmitScreen: FC = () => {
     }
   })
 
-  const { data: valid } = useQuery(
+  const { data: valid, error } = useQuery(
     ["check-in", eventUid, userPin],
     ({ queryKey }) => checkInWorkshop(queryKey[1], queryKey[2]),
     {
-      onSuccess(valid) {
+      onSuccess({ valid, status }) {
         if (valid) {
           setStatus("success")
         } else {
-          setStatus("error")
+          if (status === 409) {
+            setStatus("duplicate")
+          } else {
+            setStatus("error")
+          }
         }
       }
     }

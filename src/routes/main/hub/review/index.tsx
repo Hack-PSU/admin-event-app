@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useRef, useState} from "react";
-import {Screen, Typography, Button} from "components/base";
+import {Screen, Typography, Button, Toolbar} from "components/base";
 import {useColor} from "assets/styles/theme";
 import {Box, Modal, Row, VStack} from "native-base";
 import {useApi, useNotification} from "components/context";
@@ -78,6 +78,7 @@ const ReviewScreen: FC = () => {
       bgColor={colors.bg}
     >
       <VStack px="0.5">
+        <Toolbar back/>
         <Modal isOpen={submit} onClose={onCloseModal}>
           <Modal.Content maxWidth="500px">
             <Modal.CloseButton />

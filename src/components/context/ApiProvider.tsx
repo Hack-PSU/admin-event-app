@@ -1,7 +1,7 @@
 import React, {createContext, FC, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import axios, {AxiosInstance} from "axios";
 import {useFirebase} from "components/context/FirebaseProvider";
-import {IApiProviderHooks, IApiProviderProps, IEventItem} from "types";
+import {EventType, IApiProviderHooks, IApiProviderProps, IEventItem} from "types";
 
 const ApiContext = createContext<IApiProviderHooks>({} as IApiProviderHooks)
 
@@ -29,13 +29,14 @@ const ApiProvider: FC<IApiProviderProps> = ({ baseURL, children }) => {
           eventUid: event_id,
           pin: Number(user_pin)
         })
-        const { result } = res.data.body
-        return result === "Success"
+        const {result} = res.data.body
+        return { valid: result === "Success", status: res.status }
       } catch (e) {
-        console.error(e)
+        console.error(e.response.status)
+        return { valid: false, status: e.response.status }
       }
     }
-    return false
+    return { valid: false, status: 400 }
   }, [api.current])
 
   const getEvents = useCallback(async () => {
@@ -45,8 +46,15 @@ const ApiProvider: FC<IApiProviderProps> = ({ baseURL, children }) => {
         const { data } = res.data.body
 
         return (data as any[]).map<IEventItem>(
-          ({ uid, event_title, event_start_time, event_end_time }) =>
-            ({ uid, title: event_title, startTime: event_start_time, endTime: event_end_time })
+          ({ uid, event_title, event_start_time, event_end_time, event_type }) => {
+            return {
+              uid,
+              title: event_title,
+              startTime: event_start_time,
+              endTime: event_end_time,
+              type: event_type as EventType
+            }
+          }
         )
       } catch (e) {
         console.error(e)

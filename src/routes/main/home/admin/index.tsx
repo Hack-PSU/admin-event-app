@@ -1,15 +1,17 @@
 import React, {FC, useEffect, useRef, useState} from "react";
-import {Button, Icon, Screen, Toolbar, Typography} from "components/base";
+import {Button, Icon, Screen, Select, Toolbar, Typography} from "components/base";
 import {useColor} from "assets/styles/theme";
-import {Row, VStack} from "native-base";
+import {Box, Row, VStack} from "native-base";
 import {EventList} from "components/admin";
 import {useFirebase} from "components/context/FirebaseProvider";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
-import {HomeRoute, HomeRouterParamList, MainRoute} from "types";
+import {Filter, HomeRoute, HomeRouterParamList, MainRoute} from "types";
 
 const AdminScreen: FC = () => {
   const { params } = useRoute<RouteProp<HomeRouterParamList, HomeRoute.Admin>>()
   const { goBack, navigate } = useNavigation()
+
+  const [filter, setFilter] = useState<Filter>("all")
 
   const colors = useColor({
     bg: {
@@ -29,6 +31,10 @@ const AdminScreen: FC = () => {
     }
   }
 
+  const onFilterChange = (itemValue: string) => {
+    setFilter(itemValue as Filter)
+  }
+
   return (
     <Screen
       bgColor={colors.bg}
@@ -37,11 +43,32 @@ const AdminScreen: FC = () => {
       <VStack px="0.5">
         <VStack px="5">
           <Toolbar back onPressBack={onPressBack}/>
-          <Typography variant="h2" fontSize="4xl" bold mt="5">
-            Events.
-          </Typography>
+          <Row alignItems="center" justifyContent="space-between" mt="5">
+            <Box flexGrow={1}>
+              <Typography width="100%" variant="h2" fontSize="4xl" bold>
+                Events.
+              </Typography>
+            </Box>
+            <Box width="40%">
+              <Select
+                borderColor="black"
+                width="100%"
+                placeholder="Filter"
+                placeholderTextColor="black"
+                items={[
+                  { value: "all", label: "All" },
+                  { value: "activity", label: "Activities" },
+                  { value: "workshop", label: "Workshops" },
+                  { value: "food", label: "Food" }
+                ]}
+                onValueChange={onFilterChange}
+                py="2"
+                borderRadius="xl"
+              />
+            </Box>
+          </Row>
         </VStack>
-        <EventList />
+        <EventList filter={filter} />
       </VStack>
     </Screen>
   )

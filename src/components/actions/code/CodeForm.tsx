@@ -37,7 +37,7 @@ const CodeForm: FC = () => {
       <ControlledInput
         mt="2"
         name="code"
-        placeholder="Pin_123"
+        placeholder="123"
         as={CodeInput}
       />
       <Button onPress={onPressConfirm} backgroundColor={colors.confirmBtn} mt="10">

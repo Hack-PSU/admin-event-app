@@ -12,6 +12,14 @@ const AnimatedBox = Animated.createAnimatedComponent(Box)
 
 const StatusText: FC<Omit<IStatusProps, "fromAdmin">> = ({ status }) => {
   switch (status) {
+    case "duplicate":
+      return (
+        <AnimatedBox entering={FadeIn} exiting={FadeOut} mt="5">
+          <Typography variant="h1" textAlign="center">
+            User Already Checked In
+          </Typography>
+        </AnimatedBox>
+      )
     case "submit":
       return (
         <AnimatedBox entering={FadeIn} exiting={FadeOut} mt="5">
@@ -35,7 +43,7 @@ const StatusText: FC<Omit<IStatusProps, "fromAdmin">> = ({ status }) => {
             An Error Occurred
           </Typography>
         </AnimatedBox>
-    )
+      )
   }
 }
 

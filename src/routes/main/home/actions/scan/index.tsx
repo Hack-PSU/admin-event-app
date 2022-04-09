@@ -141,7 +141,7 @@ const ScanScreen: FC = () => {
   }, [userPin])
 
   const isValid = (data: string) => {
-    return data.startsWith("HACKPSU")
+    return data.startsWith("HACKPSU_") && data.split("_")[1] !== ""
   }
 
   const handleScan = ({ type, data, cornerPoints, bounds }: BarCodeScannerResult) => {
