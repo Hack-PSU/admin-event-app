@@ -63,14 +63,37 @@ const ApiProvider: FC<IApiProviderProps> = ({ baseURL, children }) => {
     return []
   }, [api.current])
 
+  const searchUser = useCallback(async (email: string) => {
+    console.log(email)
+    if (api.current) {
+      try {
+        const res = await api.current.get("/users/registration-by-email", {
+          params: {
+            email
+          }
+        })
+        const { pin } = res.data.body.data
+        return { pin: String(pin - 11178), status: 200, message: "Success" }
+      } catch (e) {
+        console.error(e)
+        if (e.response.status === 404) {
+          return { status: e.response.status, message: "User Not found", pin: "" }
+        }
+      }
+    }
+    return { status: 404, message: "User Not found", pin: "" }
+  }, [api.current])
+
   const value = useMemo(() => ({
     api: api.current,
     checkInWorkshop,
     getEvents,
+    searchUser,
   }), [
     api.current,
     checkInWorkshop,
-    getEvents
+    getEvents,
+    searchUser
   ])
 
   return (

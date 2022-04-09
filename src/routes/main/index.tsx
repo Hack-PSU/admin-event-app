@@ -6,6 +6,7 @@ import BottomNavigationTab from "components/base/BottomNavigationTab";
 import HubRouter from "routes/main/hub";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import MenuScreen from "routes/main/menu";
+import UserScreen from "routes/main/user";
 
 const Stack = createNativeStackNavigator()
 
@@ -15,6 +16,7 @@ const MainRouter: FC = () => {
       <Stack.Screen name={MainRoute.Menu} component={MenuScreen} />
       <Stack.Screen name={MainRoute.Home} component={HomeRouter} />
       <Stack.Screen name={MainRoute.Hub} component={HubRouter} />
+      <Stack.Screen name={MainRoute.User} component={UserScreen} />
     </Stack.Navigator>
   )
 }

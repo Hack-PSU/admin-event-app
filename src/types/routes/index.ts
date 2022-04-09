@@ -8,7 +8,8 @@ export enum RootRoute {
 export enum MainRoute {
     Menu = "Menu",
     Home = "Home",
-    Hub = "Hub"
+    Hub = "Hub",
+    User = "User"
 }
 
 export enum HomeRoute {

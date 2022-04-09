@@ -39,6 +39,8 @@ const CodeForm: FC = () => {
         name="code"
         placeholder="123"
         as={CodeInput}
+        autoCorrect={false}
+        keyboardType="number-pad"
       />
       <Button onPress={onPressConfirm} backgroundColor={colors.confirmBtn} mt="10">
         Confirm

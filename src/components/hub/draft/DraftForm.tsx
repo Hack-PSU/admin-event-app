@@ -1,6 +1,13 @@
 import React, {FC, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
-import {Button, ControlledInput, ControlledRadio, ControlledSelect, Icon, Radio, Typography} from "components/base";
+import {
+  Button,
+  ControlledInput,
+  ControlledRadio,
+  ControlledSelect,
+  InputBlock,
+  Typography
+} from "components/base";
 import {Box, Row, VStack, Icon as NativeIcon, Modal} from "native-base";
 import {FontAwesome5, Ionicons} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/native";
@@ -8,17 +15,6 @@ import {useApi, useNotification} from "components/context";
 import {HubRoute, IEventItem, INotificationPayload} from "types";
 import {useQuery} from "react-query";
 import { Buffer } from "buffer";
-
-const InputBlock: FC<{ label: string }> = ({ label, children }) => {
-  return (
-    <Box mt="3">
-      <Typography variant="body1" fontSize="md">
-        { label }
-      </Typography>
-      { children }
-    </Box>
-  )
-}
 
 const NotificationType: FC = () => {
   const [showModal, setShowModal] = useState(false)

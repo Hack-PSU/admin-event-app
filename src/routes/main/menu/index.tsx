@@ -1,9 +1,9 @@
 import React, {FC, useCallback, useEffect, useState} from "react";
 import {Button, Icon, Screen, Typography} from "components/base";
 import {useColor} from "assets/styles/theme";
-import {Box, Flex, HStack, VStack, Icon as NativeIcon, Pressable, Row, Modal} from "native-base";
+import {Box, Flex, HStack, VStack, Icon as NativeIcon, Pressable, Row, Modal, Menu} from "native-base";
 import {MenuCard, UpcomingEventsList} from "components/menu";
-import {Entypo, MaterialCommunityIcons} from '@expo/vector-icons'
+import {Entypo, Feather, MaterialCommunityIcons} from '@expo/vector-icons'
 import {useNavigation} from "@react-navigation/native";
 import {HomeRoute, IEventItem, MainRoute} from "types";
 import {useApi, useFirebase} from "components/context";
@@ -20,7 +20,10 @@ const MenuScreen: FC = () => {
   const [unauthorized, setUnauthorized] = useState(false)
   const [openModal, setOpenModal] = useState(false)
 
-  const { data: events, status } = useQuery("events", () => getEvents())
+  const { data: events, status } = useQuery(
+    "events",
+    () => getEvents()
+  )
 
   const getNextEvent = useCallback(() => {
     if (status === "success" && events) {
@@ -67,6 +70,11 @@ const MenuScreen: FC = () => {
     }
   }
 
+  const onPressSearch = () => {
+    // @ts-ignore
+    navigate(MainRoute.User)
+  }
+
   const onPressLogout = () => {
     void logout()
   }
@@ -111,7 +119,7 @@ const MenuScreen: FC = () => {
                 Logout
               </Button>
           </Row>
-          <HStack mt="10" justifyContent="space-between">
+          <HStack mt="8" justifyContent="space-between">
             <Pressable width="45%" onPress={onPressRegistration}>
               <MenuCard
                 icon={
@@ -126,6 +134,16 @@ const MenuScreen: FC = () => {
                   <Entypo name="notification" />
                 }
                 label="Notifications"
+              />
+            </Pressable>
+          </HStack>
+          <HStack mt="5" justifyContent="space-between">
+            <Pressable width="45%" onPress={onPressSearch}>
+              <MenuCard
+                icon={
+                  <Feather name="user" />
+                }
+                label="Users"
               />
             </Pressable>
           </HStack>

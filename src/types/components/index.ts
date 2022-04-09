@@ -124,6 +124,7 @@ export interface IApiProviderHooks {
   api?: AxiosInstance
   checkInWorkshop(event_id: string, user_pin: string): Promise<{ valid: boolean, status: number }>
   getEvents(): Promise<IEventItem[]>
+  searchUser(email: string): Promise<{ pin: string, status: number, message: string }>
 }
 
 export interface IApiProviderProps {
