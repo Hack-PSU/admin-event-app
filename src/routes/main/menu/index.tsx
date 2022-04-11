@@ -26,15 +26,15 @@ const MenuScreen: FC = () => {
   )
 
   const getNextEvent = useCallback(() => {
+    console.log(events)
     if (status === "success" && events) {
       const upcomingEvent = _.chain(events)
         .groupBy(event => event.startTime)
         .entries()
-        .filter(([ key, _ ]) => moment(key, "x").add(15, "minute").isAfter(moment.now()))
-        .first()
-        .value()[1]
-
-      setUpcoming(upcomingEvent as IEventItem[])
+        .filter(([ key, _ ]) => moment(key, "x").add(15, "minute").isAfter(moment.now())).first().value()
+      if (upcomingEvent) {
+        setUpcoming(upcomingEvent[1] as IEventItem[])
+      }
     }
   }, [events, status])
 
