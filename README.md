@@ -65,10 +65,10 @@ PROD_BASE_URL
 
 Refer to the [Firebase](#firebase) section to find Firebase config variables.
 
-### Firebase
-To get the Firebase configuration variables, head to the `hackpsu18` project in Firebase and go 
-to the web apps section of the project. The configuration used should be for the web app and 
-not the iOS or Android apps. Copy the appropriate configuration using the format [above](#environment-variables)
+#### Usage
+
+The Firebase credentials are stored in `.env.staging` and `.env.production` copy over the variables to your own
+file called `.env` and format them like the ones above.
 
 ### Local Development
 
